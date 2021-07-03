@@ -1,16 +1,19 @@
 const User = require('../Models/User')
+const gravatar = require('gravatar')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+const { SECRET } = require('../Config')
 
 // Function to register the users (SEEKER, RECRUITER, ADMIN)
 
 const userRegister = async(userCreds, role, res) => {
    try {
-      const { username, name, password, email } = userCreds 
+      const { username, password, email } = userCreds 
       //validate the username
       let usernameNotTaken = await validateUsername(username);
       if (!usernameNotTaken) {
          return res.status(400).json({
-            message: `Username is already taken.`,
+            message: [{ msg: 'Username is already taken' }],
             success: false
          })
       }
@@ -18,54 +21,55 @@ const userRegister = async(userCreds, role, res) => {
       let emailNotTaken = await validateEmail(email);
       if (!emailNotTaken) {
          return res.status(400).json({
-            message: `Email is already registered.`,
+            message: [{ msg: 'Email is already registered' }],
             success: false
          })
       }
-      // Validate password
-      if (password.length < 8) {
-         return res.status(400).json({
-            message: `Password must at least be 8 characters long.`,
-            success: false
-         })
-      }
+
+      const avatar = gravatar.url(email, {
+         s: '150',
+         r: 'pg',
+         d: 'mm',
+         protocol: "https"
+      })
+
       // Get the hashed password
-      const hashPassword = await bcrypt.hash(userCreds.password, 10)
+      const hashPassword = await bcrypt.hash(password, 10)
 
       // Create a new User
       const newUser = new User({
          ...userCreds,
          password: hashPassword,
+         avatar,
          role
       })
       await newUser.save()
 
-      return res.status(201).json({
-         message: `You are successfully registered as ${ role }. Please login.`,
-         success: true
+      const payload = {
+         user_id: newUser._id,
+         role: newUser.role,
+         username: newUser.username,
+         email: newUser.email 
+      }
+
+      jwt.sign( 
+      payload,
+      SECRET, 
+      { expiresIn:  "5 days" },
+      (err, token) => {
+         if (err) throw err
+         return res.status(200).json({
+            token,
+            message: `You are registered and now logged in`,
+            success: true
+         })
       })
    } catch (err) {
       // Check for validation error
-      if (err.name === "ValidationError"){
-         const {email, username, name} = err.errors
-         if(email){
-            return res.status(500).json({
-               message: email.message,
-               success: false
-            })
-         }else if(username){
-            return res.status(500).json({
-               message: username.message,
-               success: false
-            })
-         }
-         else if(name){
-            return res.status(500).json({
-               message: name.message,
-               success: false
-            })
-         }
-      }
+      return res.status(500).json({
+         message: `Server Error ${err}`,
+         success: false
+      })
    }
 }
 

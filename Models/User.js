@@ -1,20 +1,20 @@
 const { Schema, model } = require('mongoose')
-const validator = require('validator');
 
 const userSchema = new Schema({
    name: {
       type: String,
-      required: [true, 'Full name field is empty.'],
+      required: true,
    },
    email: {
       type: String,
-      required: [true, 'Email address field is empty.'],
-      validate: [validator.isEmail, 'Enter a valid email address.']
+      required: true,
    },
    username: {
       type: String,
-      required: [true, 'Username field is empty.'],
-      validate: [validator.isAlphanumeric, 'Usernames may only have letters and numbers.']
+      required: true,
+   },
+   avatar: {
+      type: String
    },
    role: {
       type: String,
@@ -23,11 +23,10 @@ const userSchema = new Schema({
    },
    password: {
       type: String,
-      required: [true, 'Password field is empty.'],
-      minLength: [8, 'Password should be at least 8 characters'],
+      required: true,
    }
 }, { timestamps: true })
 
-const User = model('User', userSchema)
+const User = model('users', userSchema)
 
 module.exports = User

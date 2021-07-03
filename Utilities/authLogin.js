@@ -33,27 +33,34 @@ const userLogin = async(userCreds, role, res) => {
          })
       } 
       // Password Matches. Lets generate a token
-      let token = jwt.sign( { //user payload
+
+      // let data = {
+      //    role: user.role,
+      //    username: user.username,
+      //    email: user.email , 
+      //    avatar: user.avatar,
+      //    token: `Bearer ${ token }`,
+      //    expiresIn: 120
+      // }
+      
+      const payload = {
          user_id: user._id,
          role: user.role,
          username: user.username,
-         email: user.email   
-      },
+         email: user.email 
+      }
+
+      jwt.sign( 
+      payload,
       SECRET, 
-      { expiresIn:  "5 days" })
-
-      let data = {
-         role: user.role,
-         username: user.username,
-         email: user.email , 
-         token: `Bearer ${ token }`,
-         expiresIn: 120
-      }  
-
-      return res.status(200).json({
-         ...data,
-         message: `You are now logged in`,
-         success: true
+      { expiresIn:  "5 days" },
+      (err, token) => {
+         if (err) throw err
+         return res.status(200).json({
+            token,
+            message: `You are logged in`,
+            success: true
+         })
       })
    } catch(err) {
       return res.status(400).json({
@@ -62,58 +69,6 @@ const userLogin = async(userCreds, role, res) => {
       })
    }
 }
-//       // Validate the email
-//       let emailNotTaken = await validateEmail(userCreds.email);
-//       if (!emailNotTaken) {
-//          return res.status(400).json({
-//             message: `Email is already registered.`,
-//             success: false
-//          });
-//       }
-
-//       // Get the hashed password
-//       const password = await bcrypt.hash(userCreds.password, 10)
-
-//       // Create a new User
-//       const newUser = new User({
-//          ...userCreds,
-//          password,
-//          role
-//       })
-//       await newUser.save()
-
-//       return res.status(201).json({
-//          message: "You are successfully registred. Please login.",
-//          success: true
-//       })
-//    } catch (err) {
-//       // Check for validation error
-//       if (err.name === "ValidationError"){
-//          const {email, username} = error.errors
-//          if(email){
-//             return res.status(500).json({
-//                message: email.message,
-//                success: false
-//             })
-//          }else if(username){
-//             return res.status(500).json({
-//                message: username.message,
-//                success: false
-//             })
-//          }
-//       }
-//    }
-// }
-
-// const validateUsername = async username => {
-//    let user = User.findOne({ username });
-//    return user ? false : true
-// }
-
-// const validateEmail = async email => {
-//    let user = User.findOne({ email });
-//    return user ? false : true
-// }
 
 module.exports = {
    userLogin

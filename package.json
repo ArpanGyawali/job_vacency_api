@@ -12,7 +12,7 @@
     "url": "git+https://github.com/ArpanGyawali/job_vacency_api.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "The Unnamed",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ArpanGyawali/job_vacency_api/issues"
@@ -24,13 +24,17 @@
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "express-validator": "^6.12.0",
+    "gravatar": "^1.8.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.14",
     "passport": "^0.4.1",
-    "passport-jwt": "^4.0.0",  
+    "passport-jwt": "^4.0.0",
+    "request": "^2.88.2",
     "validator": "^13.6.0"
   },
   "devDependencies": {
+    "concurrently": "^6.2.0",
     "nodemon": "^2.0.7"
   }
 }

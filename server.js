@@ -5,12 +5,13 @@ const { connect } = require('mongoose')
 const { success, error } = require('consola')
 const passport = require('passport')
 
-const { DB, PORT } = require("./Config")
+const { DB } = require("./Config")
 const { jwtPassport } = require("./Middlewares/passport")
 
 // Initialize the application
 const app = express()
 
+const PORT = process.env.PORT || 8000
 // Packages middlewares
 app.use(cors())
 app.use(express.json())
@@ -29,9 +30,10 @@ const connectandStart = async () => {
    try{
       // Connection with the database
       await connect(DB, { 
-         useFindAndModify: true, 
+         useFindAndModify: false, 
          useUnifiedTopology: true, 
-         useNewUrlParser: true
+         useNewUrlParser: true,
+         useCreateIndex: true
       })
 
       success({

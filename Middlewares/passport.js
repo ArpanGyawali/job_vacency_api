@@ -34,6 +34,7 @@ const serializeUser = user => {
       email: user.email,
       name: user.name,
       _id: user._id,
+      avatar: user.avatar,
       updatedAt: user.updatedAt,
       createdAt: user.createdAt
    }
