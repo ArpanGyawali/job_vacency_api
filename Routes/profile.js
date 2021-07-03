@@ -43,7 +43,7 @@ router.get('/profile-recruiterMe', userAuth, checkRole(['recruiter','admin']), a
 })
 
 // Seeker Profile Update
-router.post('/profile-seeker', validationSeekerArr, userAuth, checkRole(['seeker']), async (req, res) => {
+router.post('/profile-seeker', userAuth, checkRole(['seeker']), validationSeekerArr, async (req, res) => {
    const errors = validationResult(req)
    if(!errors.isEmpty()) {
       return res.status(400).json({
@@ -56,7 +56,7 @@ router.post('/profile-seeker', validationSeekerArr, userAuth, checkRole(['seeker
 })
 
 // Recruiter Profile Update
-router.post('/profile-recruiter', validationRecruiterArr, userAuth, checkRole(['recruiter']), async (req, res) => {
+router.post('/profile-recruiter', validationRecruiterArr, userAuth, checkRole(['recruiter']), validationRecruiterArr, async (req, res) => {
    const errors = validationResult(req)
    if(!errors.isEmpty()) {
       return res.status(400).json({
@@ -71,7 +71,7 @@ router.post('/profile-recruiter', validationRecruiterArr, userAuth, checkRole(['
 // Get all the companies profile
 router.get('/recruiters', async (req, res) => {
    try {
-      const recruiters = await RecruiterProfile.find().sort({noOfJobs: 1}).populate('users', ['name', 'avatar']) 
+      const recruiters = await RecruiterProfile.find().sort({noOfJobs: -1}).populate('users', ['name', 'avatar']) 
       res.json(recruiters)
    } catch(err) {
       return res.status(500).json({

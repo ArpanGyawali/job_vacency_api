@@ -3,7 +3,7 @@ const { Schema, model } = require('mongoose')
 const seekerProfileSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
-    ref: 'user'
+    ref: 'users'
   },
   location: {
     type: String,
@@ -55,7 +55,7 @@ const SeekerProfile = model('seekerprofiles', seekerProfileSchema)
 const recruiterProfileSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
-    ref: 'user'
+    ref: 'users'
   },
   location: {
     type: String,
