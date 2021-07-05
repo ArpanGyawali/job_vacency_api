@@ -29,7 +29,7 @@ const userMyProfile = async(user, role, res) => {
 // Common code for updating
 const updateUser = async(req, res, database, profileFields) => {
   try {
-    let profile = await database.findOne({ user: req.user.id })
+    let profile = await database.findOne({ user: req.user._id })
       
       // Existing profile and need to update
       if(profile) {

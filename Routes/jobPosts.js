@@ -2,7 +2,7 @@ const router = require('express').Router()
 const { check, validationResult } = require('express-validator')
 const { userAuth } = require('../Middlewares/userAuth')
 const { checkRole } = require('../Middlewares/checkRole')
-const { addJob, viewJobs, viewJobById } = require('../Utilities/authJobs')
+const { addJob, viewJobs, viewJobById, deleteById, applyJob } = require('../Utilities/authJobs')
 
 
 const validationJobArr = [
@@ -26,11 +26,21 @@ router.post('/post-job', userAuth, checkRole(['admin','recruiter']), validationJ
 })
 
 router.get('/view-job', userAuth, async (req, res) => {
-  viewJobs(req, res)
+  await viewJobs(req, res)
 })
 
 router.get('/view-job/:jobId', userAuth, async (req, res) => {
-  viewJobById(req, res)
+  await viewJobById(req, res)
 })
+
+router.delete('/delete-job/:jobId', userAuth, checkRole(['admin','recruiter']), async (req, res) => {
+  await deleteById(req, res)
+})
+
+// Apply for job with some id
+router.post('/apply/:jobId', userAuth, checkRole(['seeker']), async (req, res) => {
+  await applyJob(req, res)
+})
+
 
 module.exports = router

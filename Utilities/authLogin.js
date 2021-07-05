@@ -13,14 +13,14 @@ const userLogin = async(userCreds, role, res) => {
       const user = await User.findOne( {username} )
       if (!user) {
          return res.status(404).json({
-            message: `Username not found. Invalid login credentials`,
+            message: [{ msg: 'Username not found. Invalid login credentials' }],
             success: false
          })
       }
       // Then, Check the role
       if (user.role !== role){
          return res.status(403).json({
-            message: `You are logging in from wrong portal`,
+            message: [{ msg: 'You are logging in from wrong portal' }],
             success: false
          })
       }
@@ -28,7 +28,7 @@ const userLogin = async(userCreds, role, res) => {
       let isMatch = await bcrypt.compare(password, user.password)
       if (!isMatch){
          return res.status(404).json({
-            message: `Incorrect password. Invalid login credentials`,
+            message: [{ msg: 'Incorrect password. Invalid login credentials' }],
             success: false
          })
       } 
@@ -45,9 +45,8 @@ const userLogin = async(userCreds, role, res) => {
       
       const payload = {
          user_id: user._id,
-         role: user.role,
          username: user.username,
-         email: user.email 
+         email: user.email,
       }
 
       jwt.sign( 

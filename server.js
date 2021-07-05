@@ -26,6 +26,7 @@ app.use('/api/users', require('./Routes/login'))
 app.use('/api/users', require('./Routes/protected'))
 app.use('/api/users', require('./Routes/profile'))
 app.use('/api/users', require('./Routes/jobPosts'))
+app.use('/api/auth', require('./Routes/auth'))
 
 const connectandStart = async () => {
    try{

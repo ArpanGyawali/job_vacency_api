@@ -1,5 +1,6 @@
 const Job  = require('../Models/Job')
 const User = require('../Models/User')
+const { post } = require('../Routes/profile')
 
 const addJob = async (req, res) => {
   const {
@@ -11,7 +12,6 @@ const addJob = async (req, res) => {
     deadline,
     type,
     educationReq,
-    appliersNo,
     salary,
     location,
     skillsAndQualifications,
@@ -31,7 +31,6 @@ const addJob = async (req, res) => {
     jobFields.user = user_id
     jobFields.avatar = user_id.avatar
   }
-  if (appliersNo) jobFields.appliersNo = appliersNo
   if (title) jobFields.title = title
   if (catagory) jobFields.catagory = catagory
   if (level) jobFields.level = level
@@ -46,19 +45,19 @@ const addJob = async (req, res) => {
     jobFields.skillsAndQualifications = skillsAndQualifications.split('\n')
   }
   try{
-    let job = await Job.findOne({ company: jobFields.company } )
+    // let job = await Job.findOne({ user: jobFields.user } )
 
-    // Updating Job
-    if(job) {
-      job = await Job.findOneAndUpdate( 
-        {company: jobFields.company},
-        {$set: jobFields},
-        {new: true}  
-      )
-      return res.status(200).json(job)
-    }
+    // // Updating Job
+    // if(job) {
+    //   job = await Job.findOneAndUpdate( 
+    //     {company: jobFields.company},
+    //     {$set: jobFields},
+    //     {new: true}  
+    //   )
+    //   return res.status(200).json(job)
+    // }
     // Adding new Job
-    job = new Job(jobFields);
+    const job = new Job(jobFields);
     await job.save()
     return res.status(200).json(job)
   } catch (err) {
@@ -111,8 +110,68 @@ const viewJobById = async (req, res) => {
   }
 }
 
+const deleteById = async (req, res) => {
+  try{
+    const job = await Job.findById(req.params.jobId)
+    if(!job){
+      return res.status(404).json({
+        message: `Job not found`,
+        success: false
+      })
+    }
+    // Check User
+    if (job.user.toString() !== req.user._id && req.user.role !== 'admin'){
+      return res.status(401).json({
+        message: `You cannot delete the job`,
+        success: false
+      })
+    }
+    await job.remove()
+    return res.status(401).json({
+      message: `Job deleated`,
+      success: true
+    })
+  }catch(err){
+    if(err.kind === 'ObjectId'){
+      return res.status(404).json({
+        message: `Job not found`,
+        success: false
+      })
+    }
+    return res.status(500).json({
+      message: `Server error ${err}`,
+      success: false
+    })
+  }
+}
+
+const applyJob = async(req, res) => {
+  try {
+    const job = await Job.findById(req.params.jobId)
+    if(!job){
+      return res.status(404).json({
+        message: `Job not found`,
+        success: false
+      })
+    }
+  } catch (err) {
+    if(err.kind === 'ObjectId'){
+      return res.status(404).json({
+        message: `Job not found`,
+        success: false
+      })
+    }
+    return res.status(500).json({
+      message: `Server error ${err}`,
+      success: false
+    })
+  }
+}
+
 module.exports = {
   addJob,
   viewJobs,
-  viewJobById
+  viewJobById,
+  deleteById,
+  applyJob
 }

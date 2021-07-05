@@ -47,15 +47,14 @@ const userRegister = async(userCreds, role, res) => {
 
       const payload = {
          user_id: newUser._id,
-         role: newUser.role,
          username: newUser.username,
-         email: newUser.email 
+         email: newUser.email,
       }
 
       jwt.sign( 
       payload,
       SECRET, 
-      { expiresIn:  "5 days" },
+      { expiresIn:  86400 },
       (err, token) => {
          if (err) throw err
          return res.status(200).json({

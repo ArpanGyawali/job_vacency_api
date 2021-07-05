@@ -60,6 +60,23 @@ const jobSchema = new Schema({
       user: {
         type: Schema.Types.ObjectId,
         ref: 'users'
+      },
+      accept: {
+        type: Boolean,
+        default: false
+      },
+      resume: {
+
+      },
+      name: {
+        type: String
+      },
+      avatar: {
+        type: String
+      },
+      applied: {
+        type: Date,
+        default: Date.now
       }
     }
   ],
