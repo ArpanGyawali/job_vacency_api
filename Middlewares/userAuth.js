@@ -1,9 +1,8 @@
-const passport = require('passport')
+const passport = require('passport');
 
 // Passport Middleware
-const userAuth = passport.authenticate('jwt', { session: false })
+const userAuth = passport.authenticate('jwt', { session: false });
 
 module.exports = {
-   userAuth
-}
-
+	userAuth,
+};
