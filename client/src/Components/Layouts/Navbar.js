@@ -9,8 +9,8 @@ import { logout } from '../../Actions/auth';
 const Navbar = ({ auth, logout }) => {
 	//const role = auth.user.role                    //if role is re  required
 	const { isAuthenticated, isLoading, user } = auth;
-	const role = isAuthenticated && user.role;
-	const id = isAuthenticated && user._id;
+	const role = user && user.role;
+	const id = user && user._id;
 	let route;
 	if (role === 'seeker') {
 		route = `/seekerProfile/${id}`;

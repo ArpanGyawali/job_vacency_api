@@ -57,7 +57,7 @@ const SeekerProfile = ({
 									className='btn btn-danger'
 									onClick={() => DeleteAccount('seeker')}
 								>
-									<i className='fas fa-user-minus'></i> Delete Account
+									<i className='fa fa-trash'></i> Delete Account
 								</button>
 							</div>
 						)}
