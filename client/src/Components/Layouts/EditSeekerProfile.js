@@ -1,22 +1,30 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createUpdate, getMyProfile } from '../../Actions/profile';
+import { createUpdate, getProfileById } from '../../Actions/profile';
+import { setAlert } from '../../Actions/alert';
 
 const EditSeekerProfile = (props) => {
 	const {
+		setAlert,
 		createUpdate,
-		getMyProfile,
+		getProfileById,
 		history,
 		profile: { profile, isLoading },
 	} = props;
+	const {
+		auth: { user, isAuthenticated },
+	} = props;
+	const id = isAuthenticated && user._id;
+	const email = isAuthenticated && user.email;
 	const [seekerProfileData, setSeekerProfileData] = useState({
 		location: '',
 		isPulchowk: false,
-		jobInterest: '',
-		workEmail: '',
+		jobInterests: '',
+		workEmail: email,
 		currentStatus: '',
+		portfolio: '',
 		currentJob: '',
 		desc: '',
 		facebook: '',
@@ -28,13 +36,17 @@ const EditSeekerProfile = (props) => {
 	const [displaySocial, toggleSocial] = useState(false);
 
 	useEffect(() => {
-		getMyProfile();
+		getProfileById(id, 'seeker');
 
 		setSeekerProfileData({
 			location: isLoading || !profile.location ? '' : profile.location,
-			jobInterest:
-				isLoading || !profile.jobInterest ? '' : profile.jobInterest.join(', '),
+			jobInterests:
+				isLoading || !profile.jobInterests
+					? ''
+					: profile.jobInterests.join(', '),
 			workEmail: isLoading || !profile.workEmail ? '' : profile.workEmail,
+			portfolio: isLoading || !profile.portfolio ? '' : profile.portfolio,
+			isPulchowk: profile.isPulchowk,
 			currentStatus:
 				isLoading || !profile.currentStatus ? '' : profile.currentStatus,
 			currentJob: isLoading || !profile.currentJob ? '' : profile.currentJob,
@@ -44,20 +56,23 @@ const EditSeekerProfile = (props) => {
 			linkedin: isLoading || !profile.social ? '' : profile.social.linkedin,
 			github: isLoading || !profile.social ? '' : profile.social.github,
 		});
-	}, [isLoading]);
+	}, [isLoading, getProfileById]);
 
 	const {
 		location,
-		jobInterest,
+		jobInterests,
 		workEmail,
 		currentStatus,
 		currentJob,
 		desc,
+		portfolio,
 		facebook,
 		linkedin,
 		twitter,
 		github,
 	} = seekerProfileData;
+
+	let back = useHistory();
 
 	const handleChange = (ele) =>
 		setSeekerProfileData({
@@ -68,6 +83,7 @@ const EditSeekerProfile = (props) => {
 	const handleSubmit = (ele) => {
 		ele.preventDefault();
 		createUpdate(seekerProfileData, history, 'seeker');
+		setAlert('Profile Updated', 'success');
 	};
 
 	return (
@@ -162,12 +178,24 @@ const EditSeekerProfile = (props) => {
 					<input
 						type='text'
 						placeholder='* Job Interest'
-						name='jobInterest'
-						value={jobInterest}
+						name='jobInterests'
+						value={jobInterests}
 						onChange={(ele) => handleChange(ele)}
 					/>
 					<small className='form-text'>
 						Write all your field of interests for the job seperated by comma
+					</small>
+				</div>
+				<div className='form-group'>
+					<input
+						type='text'
+						placeholder='Portfolio Website'
+						name='portfolio'
+						value={portfolio}
+						onChange={(ele) => handleChange(ele)}
+					/>
+					<small className='form-text'>
+						If you have your portfolio website, give us its link
 					</small>
 				</div>
 				<div className='form-group'>
@@ -238,9 +266,9 @@ const EditSeekerProfile = (props) => {
 				)}
 
 				<input type='submit' className='btn btn-primary my-1' />
-				<Link to='/mySeekerProfile' className='btn btn-light my-1'>
+				<button className='btn btn-light my-1' onClick={() => back.goBack()}>
 					Go Back
-				</Link>
+				</button>
 			</form>
 		</Fragment>
 	);
@@ -248,14 +276,19 @@ const EditSeekerProfile = (props) => {
 
 EditSeekerProfile.propTypes = {
 	createUpdate: PropTypes.func.isRequired,
-	getMyProfile: PropTypes.func.isRequired,
+	setAlert: PropTypes.func.isRequired,
+	getProfileById: PropTypes.func.isRequired,
 	profile: PropTypes.object.isRequired,
+	auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
 	profile: state.profile,
+	auth: state.auth,
 });
 
-export default connect(mapStateToProps, { createUpdate, getMyProfile })(
-	withRouter(EditSeekerProfile)
-); //this allows us to use history object as props
+export default connect(mapStateToProps, {
+	createUpdate,
+	getProfileById,
+	setAlert,
+})(withRouter(EditSeekerProfile)); //this allows us to use history object as props

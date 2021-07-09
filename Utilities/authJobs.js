@@ -1,6 +1,5 @@
 const Job = require('../Models/Job');
 const User = require('../Models/User');
-const { post } = require('../Routes/profile');
 
 const addJob = async (req, res) => {
 	const {
@@ -75,8 +74,17 @@ const viewJobs = async (req, res) => {
 			jobs = await Job.find({ vacancyNo: { $gt: 0 } }).sort({ date: -1 });
 		} else if (req.body.sortBy === 'popularity') {
 			jobs = await Job.find({ vacancyNo: { $gt: 0 } }).sort({ appliersNo: -1 });
+		} else if (req.body.sortBy === 'vacancyNo') {
+			jobs = await Job.find().sort({ vacancyNo: -1 });
 		}
-		return res.json(jobs);
+		if (jobs.length > 0) {
+			return res.json(jobs);
+		} else {
+			return res.status(404).json({
+				message: `No Jobs Found`,
+				success: false,
+			});
+		}
 	} catch (err) {
 		return res.status(500).json({
 			message: `Server error ${err}`,
@@ -99,6 +107,33 @@ const viewJobById = async (req, res) => {
 		if (err.kind === 'ObjectId') {
 			return res.status(404).json({
 				message: `Job not found`,
+				success: false,
+			});
+		}
+		return res.status(500).json({
+			message: `Server error ${err}`,
+			success: false,
+		});
+	}
+};
+
+const viewJobByUserId = async (req, res) => {
+	try {
+		const jobs = await Job.find({ user: req.params.userId }).sort({
+			vacancyNo: -1,
+		});
+		if (jobs.length > 0) {
+			return res.json(jobs);
+		} else {
+			return res.status(404).json({
+				message: `No Jobs Found`,
+				success: false,
+			});
+		}
+	} catch (err) {
+		if (err.kind === 'ObjectId') {
+			return res.status(404).json({
+				message: `No Jobs Found`,
 				success: false,
 			});
 		}
@@ -173,4 +208,5 @@ module.exports = {
 	viewJobById,
 	deleteById,
 	applyJob,
+	viewJobByUserId,
 };

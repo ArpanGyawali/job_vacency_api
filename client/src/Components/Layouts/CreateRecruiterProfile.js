@@ -1,16 +1,21 @@
 import React, { useState, Fragment } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { createUpdate } from '../../Actions/profile';
 import { connect } from 'react-redux';
+import { setAlert } from '../../Actions/alert';
 
 const CreateRecruiterProfile = (props) => {
-	const { createUpdate, history } = props;
+	const { setAlert, createUpdate, history } = props;
+	const {
+		auth: { user, isAuthenticated },
+	} = props;
+	const email = isAuthenticated && user.email;
 	const [recruiterProfileData, setRecruiterProfileData] = useState({
 		location: '',
 		website: '',
 		contactNo: '',
-		workEmail: '',
+		workEmail: email,
 		desc: '',
 		facebook: '',
 		twitter: '',
@@ -41,6 +46,7 @@ const CreateRecruiterProfile = (props) => {
 	const handleSubmit = (ele) => {
 		ele.preventDefault();
 		createUpdate(recruiterProfileData, history, 'recruiter');
+		setAlert('Profile Created', 'success');
 	};
 
 	return (
@@ -162,7 +168,7 @@ const CreateRecruiterProfile = (props) => {
 							<input
 								type='text'
 								placeholder='Instagram URL'
-								name='github'
+								name='instagram'
 								value={instagram}
 								onChange={(ele) => handleChange(ele)}
 							/>
@@ -178,8 +184,14 @@ const CreateRecruiterProfile = (props) => {
 
 CreateRecruiterProfile.propTypes = {
 	createUpdate: PropTypes.func.isRequired,
+	setAlert: PropTypes.func.isRequired,
+	auth: PropTypes.object.isRequired,
 };
 
-export default connect(null, { createUpdate })(
+const mapStateToProps = (state) => ({
+	auth: state.auth,
+});
+
+export default connect(mapStateToProps, { createUpdate, setAlert })(
 	withRouter(CreateRecruiterProfile)
 );

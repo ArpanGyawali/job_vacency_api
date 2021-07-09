@@ -30,7 +30,6 @@ const userRegister = async (userCreds, role, res) => {
 			s: '150',
 			r: 'pg',
 			d: 'mm',
-			protocol: 'https',
 		});
 
 		// Get the hashed password

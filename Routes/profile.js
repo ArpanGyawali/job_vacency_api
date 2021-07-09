@@ -86,8 +86,8 @@ router.post(
 router.get('/recruiters', async (req, res) => {
 	try {
 		const recruiters = await RecruiterProfile.find()
-			.sort({ noOfJobs: -1 })
-			.populate('users', ['name', 'avatar']);
+			.populate('user', ['name', 'avatar'])
+			.sort({ noOfJobs: -1 });
 		res.json(recruiters);
 	} catch (err) {
 		return res.status(500).json({

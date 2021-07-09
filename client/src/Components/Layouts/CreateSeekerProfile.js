@@ -1,17 +1,25 @@
 import React, { useState, Fragment } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createUpdate } from '../../Actions/profile';
+import { setAlert } from '../../Actions/alert';
 
-const CreateSeekerProfile = ({ createUpdate, history }) => {
+const CreateSeekerProfile = ({
+	setAlert,
+	createUpdate,
+	history,
+	auth: { user, isAuthenticated },
+}) => {
+	const email = isAuthenticated && user.email;
 	const [seekerProfileData, setSeekerProfileData] = useState({
 		location: '',
 		isPulchowk: false,
-		jobInterest: '',
-		workEmail: '',
+		jobInterests: '',
+		workEmail: email,
 		currentStatus: '',
 		currentJob: '',
+		portfolio: '',
 		desc: '',
 		facebook: '',
 		twitter: '',
@@ -23,12 +31,12 @@ const CreateSeekerProfile = ({ createUpdate, history }) => {
 
 	const {
 		location,
-		isPulchowk,
-		jobInterest,
+		jobInterests,
 		workEmail,
 		currentStatus,
 		currentJob,
 		desc,
+		portfolio,
 		facebook,
 		linkedin,
 		twitter,
@@ -44,6 +52,7 @@ const CreateSeekerProfile = ({ createUpdate, history }) => {
 	const handleSubmit = (ele) => {
 		ele.preventDefault();
 		createUpdate(seekerProfileData, history, 'seeker');
+		setAlert('Profile Created', 'success');
 	};
 
 	return (
@@ -95,6 +104,7 @@ const CreateSeekerProfile = ({ createUpdate, history }) => {
 					<input
 						type='radio'
 						name='isPulchowk'
+						checked
 						onClick={() =>
 							setSeekerProfileData({
 								...seekerProfileData,
@@ -138,12 +148,24 @@ const CreateSeekerProfile = ({ createUpdate, history }) => {
 					<input
 						type='text'
 						placeholder='* Job Interest'
-						name='jobInterest'
-						value={jobInterest}
+						name='jobInterests'
+						value={jobInterests}
 						onChange={(ele) => handleChange(ele)}
 					/>
 					<small className='form-text'>
 						Write all your field of interests for the job seperated by comma
+					</small>
+				</div>
+				<div className='form-group'>
+					<input
+						type='text'
+						placeholder='Portfolio Website'
+						name='portfolio'
+						value={portfolio}
+						onChange={(ele) => handleChange(ele)}
+					/>
+					<small className='form-text'>
+						If you have your portfolio website, give us its link
 					</small>
 				</div>
 				<div className='form-group'>
@@ -221,6 +243,14 @@ const CreateSeekerProfile = ({ createUpdate, history }) => {
 
 CreateSeekerProfile.propTypes = {
 	createUpdate: PropTypes.func.isRequired,
+	setAlert: PropTypes.func.isRequired,
+	auth: PropTypes.object.isRequired,
 };
 
-export default connect(null, { createUpdate })(withRouter(CreateSeekerProfile)); //this allows us to use history object as props
+const mapStateToProps = (state) => ({
+	auth: state.auth,
+});
+
+export default connect(mapStateToProps, { createUpdate, setAlert })(
+	withRouter(CreateSeekerProfile)
+); //this allows us to use history object as props

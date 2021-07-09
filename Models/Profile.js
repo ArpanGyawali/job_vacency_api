@@ -16,6 +16,9 @@ const seekerProfileSchema = new Schema({
 	jobInterests: {
 		type: [String],
 	},
+	portfolio: {
+		type: String,
+	},
 	workEmail: {
 		type: String,
 		required: true,
@@ -41,6 +44,9 @@ const seekerProfileSchema = new Schema({
 			type: String,
 		},
 		github: {
+			type: String,
+		},
+		portfolio: {
 			type: String,
 		},
 	},

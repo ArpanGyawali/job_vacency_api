@@ -8,6 +8,7 @@ const {
 	viewJobById,
 	deleteById,
 	applyJob,
+	viewJobByUserId,
 } = require('../Utilities/authJobs');
 
 const validationJobArr = [
@@ -42,6 +43,10 @@ router.get('/view-job', userAuth, async (req, res) => {
 
 router.get('/view-job/:jobId', userAuth, async (req, res) => {
 	await viewJobById(req, res);
+});
+
+router.get('/view-job/:userId', async (req, res) => {
+	await viewJobByUserId(req, res);
 });
 
 router.delete(

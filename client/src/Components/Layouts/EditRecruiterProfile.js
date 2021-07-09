@@ -1,21 +1,28 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { createUpdate, getMyProfile } from '../../Actions/profile';
+import { createUpdate, getProfileById } from '../../Actions/profile';
+import { setAlert } from '../../Actions/alert';
 import { connect } from 'react-redux';
 
 const EditRecruiterProfile = (props) => {
 	const {
 		createUpdate,
-		getMyProfile,
+		getProfileById,
+		setAlert,
 		history,
 		profile: { profile, isLoading },
 	} = props;
+	const {
+		auth: { user, isAuthenticated },
+	} = props;
+	const id = isAuthenticated && user._id;
+	const email = isAuthenticated && user.email;
 	const [recruiterProfileData, setRecruiterProfileData] = useState({
 		location: '',
 		website: '',
 		contactNo: '',
-		workEmail: '',
+		workEmail: email,
 		desc: '',
 		facebook: '',
 		twitter: '',
@@ -26,7 +33,7 @@ const EditRecruiterProfile = (props) => {
 	const [displaySocial, toggleSocial] = useState(false);
 
 	useEffect(() => {
-		getMyProfile();
+		getProfileById(id, 'recruiter');
 
 		setRecruiterProfileData({
 			location: isLoading || !profile.location ? '' : profile.location,
@@ -39,7 +46,7 @@ const EditRecruiterProfile = (props) => {
 			linkedin: isLoading || !profile.social ? '' : profile.social.linkedin,
 			instagram: isLoading || !profile.social ? '' : profile.social.instagram,
 		});
-	}, [isLoading]);
+	}, [isLoading, getProfileById]);
 
 	const {
 		location,
@@ -62,6 +69,7 @@ const EditRecruiterProfile = (props) => {
 	const handleSubmit = (ele) => {
 		ele.preventDefault();
 		createUpdate(recruiterProfileData, history, 'recruiter');
+		setAlert('Profile Updated', 'success');
 	};
 
 	return (
@@ -183,7 +191,7 @@ const EditRecruiterProfile = (props) => {
 							<input
 								type='text'
 								placeholder='Instagram URL'
-								name='github'
+								name='instagram'
 								value={instagram}
 								onChange={(ele) => handleChange(ele)}
 							/>
@@ -192,9 +200,6 @@ const EditRecruiterProfile = (props) => {
 				)}
 
 				<input type='submit' className='btn btn-primary my-1' />
-				<Link to='/myRecruiterProfile' className='btn btn-light my-1'>
-					Go Back
-				</Link>
 			</form>
 		</Fragment>
 	);
@@ -202,14 +207,19 @@ const EditRecruiterProfile = (props) => {
 
 EditRecruiterProfile.propTypes = {
 	createUpdate: PropTypes.func.isRequired,
-	getMyProfile: PropTypes.func.isRequired,
+	getProfileById: PropTypes.func.isRequired,
+	setAlert: PropTypes.func.isRequired,
 	profile: PropTypes.object.isRequired,
+	auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
 	profile: state.profile,
+	auth: state.auth,
 });
 
-export default connect(mapStateToProps, { createUpdate, getMyProfile })(
-	withRouter(EditRecruiterProfile)
-); //
+export default connect(mapStateToProps, {
+	createUpdate,
+	getProfileById,
+	setAlert,
+})(withRouter(EditRecruiterProfile)); //

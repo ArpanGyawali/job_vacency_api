@@ -1,17 +1,18 @@
 const { SeekerProfile, RecruiterProfile } = require('../Models/Profile');
 const User = require('../Models/User');
+const Job = require('../Models/Job');
 
 const userMyProfile = async (user, res) => {
 	try {
 		let profile;
 		if (user.role === 'seeker') {
 			profile = await SeekerProfile.findOne({ user: user._id }).populate(
-				'users',
+				'user',
 				['name', 'username', 'avatar', 'role']
 			);
 		} else if (user.role === 'recruiter') {
 			profile = await RecruiterProfile.findOne({ user: user._id }).populate(
-				'users',
+				'user',
 				['name', 'username', 'avatar', 'role']
 			);
 		}
@@ -70,7 +71,9 @@ const userProfileUpdate = async (req, role, res) => {
 		twitter,
 		linkedin,
 		github,
+		instagram,
 		website,
+		portfolio,
 		contactNo,
 	} = req.body;
 
@@ -78,6 +81,7 @@ const userProfileUpdate = async (req, role, res) => {
 	const profileFields = {};
 	profileFields.user = req.user._id;
 	if (location) profileFields.location = location;
+	if (portfolio) profileFields.portfolio = portfolio;
 	if (workEmail) profileFields.workEmail = workEmail;
 	profileFields.isPulchowk = isPulchowk;
 	if (currentStatus) profileFields.currentStatus = currentStatus;
@@ -97,7 +101,8 @@ const userProfileUpdate = async (req, role, res) => {
 	if (facebook) profileFields.social.facebook = facebook;
 	if (linkedin) profileFields.social.linkedin = linkedin;
 	if (github) profileFields.social.github = github;
-	if (twitter) profileFields.social.facebook = twitter;
+	if (twitter) profileFields.social.twitter = twitter;
+	if (instagram) profileFields.social.instagram = instagram;
 
 	if (role === 'seeker') {
 		updateUser(req, res, SeekerProfile, profileFields);
@@ -111,7 +116,7 @@ const getById = async (req, res, database) => {
 	try {
 		const profile = await database
 			.findOne({ user: req.params.user_id })
-			.populate('users', ['name', 'avatar']);
+			.populate('user', ['name', 'avatar', 'username']);
 		if (!profile) {
 			return res.status(400).json({
 				message: `Profile Not found`,
@@ -143,8 +148,8 @@ const getSeekerById = async (req, res) => {
 
 const deleteRecruiter = async (req, res) => {
 	try {
-		// Delete Jobs
-
+		// Delete all Jobs of the user
+		await Job.deleteMany({ user: req.user._id });
 		// Delete Profile
 		await RecruiterProfile.findOneAndRemove({ user: req.user._id });
 		// Delete Recruiter
@@ -165,7 +170,7 @@ const deleteSeeker = async (req, res) => {
 	try {
 		// Delete Profile
 		await SeekerProfile.findOneAndRemove({ user: req.user._id });
-		// Delete Recruiter
+		// Delete Seeker
 		await User.findOneAndRemove({ _id: req.user._id });
 		return res.status(200).json({
 			message: `User Deleated`,

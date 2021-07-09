@@ -7,12 +7,13 @@ import Login from './Components/Auth/Login';
 import Alert from './Components/Layouts/Alert';
 import SeekerDash from './Components/Dashboard/SeekerDash';
 import RecruiterDash from './Components/Dashboard/RecruiterDash';
-import MySeekerProfile from './Components/Layouts/MySeekerProfile';
-import MyRecruiterProfile from './Components/Layouts/MyRecruiterProfile';
 import CreateSeekerProfile from './Components/Layouts/CreateSeekerProfile';
 import CreateRecruiterProfile from './Components/Layouts/CreateRecruiterProfile';
 import EditSeekerProfile from './Components/Layouts/EditSeekerProfile';
 import EditRecruiterProfile from './Components/Layouts/EditRecruiterProfile';
+import Companies from './Components/Companies/Companies';
+import RecruiterProfile from './Components/Profile/RecruiterProfile';
+import SeekerProfile from './Components/Profile/SeekerProfile';
 import { loadUser } from './Actions/auth';
 import setAuthToken from './Utils/setAuthToken';
 import PrivateRoute from './Components/PrivateRouting/PrivateRoute';
@@ -53,6 +54,7 @@ const App = () => {
 						<Switch>
 							<Route exact path='/register' component={Register} />
 							<Route exact path='/login' component={Login} />
+							<Route exact path='/companies' component={Companies} />
 							<PrivateRoute
 								exact
 								path='/Seeker-Dashboard'
@@ -62,16 +64,6 @@ const App = () => {
 								exact
 								path='/Recruiter-Dashboard'
 								component={RecruiterDash}
-							/>
-							<PrivateRoute
-								exact
-								path='/mySeekerProfile'
-								component={MySeekerProfile}
-							/>
-							<PrivateRoute
-								exact
-								path='/myRecruiterProfile'
-								component={MyRecruiterProfile}
 							/>
 							<PrivateRoute
 								exact
@@ -92,6 +84,16 @@ const App = () => {
 								exact
 								path='/updateRecruiterProfile'
 								component={EditRecruiterProfile}
+							/>
+							<PrivateRoute
+								exact
+								path='/recruiterProfile/:id'
+								component={RecruiterProfile}
+							/>
+							<PrivateRoute
+								exact
+								path='/seekerProfile/:id'
+								component={SeekerProfile}
 							/>
 						</Switch>
 					</section>

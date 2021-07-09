@@ -8,13 +8,14 @@ import { logout } from '../../Actions/auth';
 
 const Navbar = ({ auth, logout }) => {
 	//const role = auth.user.role                    //if role is re  required
-	const { isAuthenticated, isLoading } = auth;
-	const role = isAuthenticated && auth.user.role;
+	const { isAuthenticated, isLoading, user } = auth;
+	const role = isAuthenticated && user.role;
+	const id = isAuthenticated && user._id;
 	let route;
 	if (role === 'seeker') {
-		route = '/mySeekerProfile';
+		route = `/seekerProfile/${id}`;
 	} else {
-		route = '/myRecruiterProfile';
+		route = `/recruiterProfile/${id}`;
 	}
 	const authLinks = (
 		<Fragment>
@@ -43,7 +44,7 @@ const Navbar = ({ auth, logout }) => {
 			</Link>
 			<ul>
 				<li>
-					<Link to='#!'>Companies</Link>
+					<Link to='/companies'>Companies</Link>
 				</li>
 				{!isLoading && <Fragment>{isAuthenticated && authLinks}</Fragment>}
 			</ul>

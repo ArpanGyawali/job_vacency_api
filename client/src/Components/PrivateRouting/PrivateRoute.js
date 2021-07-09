@@ -4,10 +4,10 @@ import { setAlert } from '../../Actions/alert';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-const PrivateRoute = ({ component: Component, auth, ...rest }) => {
-	// if (!auth.isAuthenticated && !auth.isLoading) {
-	//   setAlert('You need to resister or log in first', 'danger')
-	// }
+const PrivateRoute = ({ setAlert, component: Component, auth, ...rest }) => {
+	if (!auth.isAuthenticated && !auth.isLoading) {
+		setAlert('You need to resister or log in first', 'danger');
+	}
 	return (
 		<Route
 			{...rest}

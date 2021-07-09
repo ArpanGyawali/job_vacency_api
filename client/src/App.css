@@ -202,6 +202,25 @@ img {
 	color: #333;
 }
 
+.center {
+	margin: 0 auto;
+}
+
+.dot {
+	height: 40px;
+	width: 40px;
+	background-color: var(--primary-color-thin);
+	border-radius: 50%;
+	text-align: center;
+}
+
+.dot-text {
+	margin-top: -10px;
+	position: relative;
+	top: 20%;
+	color: white;
+}
+
 .alert {
 	padding: 0.5rem;
 	margin: 1rem 0;
@@ -352,6 +371,12 @@ button {
 	background: var(--light-color);
 }
 
+.isPul {
+	position: absolute;
+	right: 16%;
+	top: 14%;
+}
+
 /* Navbar */
 .navbar {
 	display: flex;
@@ -427,11 +452,6 @@ ul li:hover {
 /* Profile Page */
 .profile-grid {
 	display: grid;
-	grid-template-areas:
-		'top top'
-		'about about'
-		'exp edu'
-		'github github';
 	grid-gap: 1rem;
 }
 
