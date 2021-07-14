@@ -20,7 +20,6 @@ const EditSeekerProfile = (props) => {
 	const email = isAuthenticated && user.email;
 	const [seekerProfileData, setSeekerProfileData] = useState({
 		location: '',
-		isPulchowk: false,
 		jobInterests: '',
 		workEmail: email,
 		currentStatus: '',
@@ -46,7 +45,6 @@ const EditSeekerProfile = (props) => {
 					: profile.jobInterests.join(', '),
 			workEmail: isLoading || !profile.workEmail ? '' : profile.workEmail,
 			portfolio: isLoading || !profile.portfolio ? '' : profile.portfolio,
-			isPulchowk: profile.isPulchowk,
 			currentStatus:
 				isLoading || !profile.currentStatus ? '' : profile.currentStatus,
 			currentJob: isLoading || !profile.currentJob ? '' : profile.currentJob,
@@ -118,33 +116,6 @@ const EditSeekerProfile = (props) => {
 					/>
 					<small className='form-text'>
 						Give us your email that you use professionally
-					</small>
-				</div>
-				<div className='form-group'>
-					<input
-						type='radio'
-						name='isPulchowk'
-						onClick={() =>
-							setSeekerProfileData({
-								...seekerProfileData,
-								isPulchowk: true,
-							})
-						}
-					/>
-					Yes
-					<input
-						type='radio'
-						name='isPulchowk'
-						onClick={() =>
-							setSeekerProfileData({
-								...seekerProfileData,
-								isPulchowk: false,
-							})
-						}
-					/>
-					No
-					<small className='form-text'>
-						* Select Yes if you are a Pulchwok Student
 					</small>
 				</div>
 				<div className='form-group'>

@@ -14,6 +14,9 @@ import EditRecruiterProfile from './Components/Layouts/EditRecruiterProfile';
 import Companies from './Components/Companies/Companies';
 import RecruiterProfile from './Components/Profile/RecruiterProfile';
 import SeekerProfile from './Components/Profile/SeekerProfile';
+import PostJobForm from './Components/Job/PostJobForm';
+import Jobs from './Components/Job/Jobs';
+import JobById from './Components/Job/JobById';
 import { loadUser } from './Actions/auth';
 import setAuthToken from './Utils/setAuthToken';
 import PrivateRoute from './Components/PrivateRouting/PrivateRoute';
@@ -95,6 +98,9 @@ const App = () => {
 								path='/seekerProfile/:id'
 								component={SeekerProfile}
 							/>
+							<PrivateRoute exact path='/job/:id' component={JobById} />
+							<PrivateRoute exact path='/post-job' component={PostJobForm} />
+							<PrivateRoute exact path='/jobs' component={Jobs} />
 						</Switch>
 					</section>
 				</Fragment>

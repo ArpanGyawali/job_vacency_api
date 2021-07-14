@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../Layouts/Spinner';
+import JobsByUser from '../Job/JobsByUser';
 import RecruiterProfileData from './RecruiterProfileData';
 import { getProfileById, DeleteAccount } from '../../Actions/profile';
 
@@ -41,7 +42,7 @@ const RecruiterProfile = ({
 						)}
 					<div class='profile-grid my-1'>
 						<RecruiterProfileData profile={profile} />
-						{/* <RecruiterJobs /> */}
+						<JobsByUser id={id} />
 					</div>
 					{auth.isAuthenticated &&
 						auth.isLoading === false &&

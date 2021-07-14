@@ -20,6 +20,12 @@ const Navbar = ({ auth, logout }) => {
 	const authLinks = (
 		<Fragment>
 			<li>
+				<Link to={'/jobs'}>
+					<i className='fas fa-briefcase'></i>{' '}
+					<span className='hide-sm'>Jobs</span>
+				</Link>
+			</li>
+			<li>
 				<Link to={route}>
 					<i className='fas fa-user'></i>{' '}
 					<span className='hide-sm'>Profile</span>
@@ -44,7 +50,10 @@ const Navbar = ({ auth, logout }) => {
 			</Link>
 			<ul>
 				<li>
-					<Link to='/companies'>Companies</Link>
+					<Link to='/companies'>
+						<i className='fas fa-building'></i>{' '}
+						<span className='hide-sm'>Companies</span>
+					</Link>
 				</li>
 				{!isLoading && <Fragment>{isAuthenticated && authLinks}</Fragment>}
 			</ul>

@@ -63,7 +63,6 @@ const userProfileUpdate = async (req, role, res) => {
 		location,
 		jobInterests,
 		workEmail,
-		isPulchowk,
 		currentStatus,
 		currentJob,
 		desc,
@@ -83,7 +82,6 @@ const userProfileUpdate = async (req, role, res) => {
 	if (location) profileFields.location = location;
 	if (portfolio) profileFields.portfolio = portfolio;
 	if (workEmail) profileFields.workEmail = workEmail;
-	profileFields.isPulchowk = isPulchowk;
 	if (currentStatus) profileFields.currentStatus = currentStatus;
 	if (currentJob) profileFields.currentJob = currentJob;
 	if (desc) profileFields.desc = desc;

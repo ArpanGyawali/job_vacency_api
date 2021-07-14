@@ -78,8 +78,8 @@ const Register = (props) => {
 						onChange={(ele) => handleChange(ele)}
 					/>
 					<small className='form-text'>
-						This site uses Gravatar so if you want a profile image, use a
-						Gravatar email
+						If you have an organization or university email, we recommend you to
+						use that email. (Your email should be valid)
 					</small>
 				</div>
 				<div className='form-group'>

@@ -9,10 +9,6 @@ const seekerProfileSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	isPulchowk: {
-		type: Boolean,
-		required: true,
-	},
 	jobInterests: {
 		type: [String],
 	},

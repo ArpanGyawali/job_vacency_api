@@ -28,11 +28,7 @@ const Login = (props) => {
 
 	// Redirect if logged in
 	if (isAuthenticated) {
-		if (role === 'seeker') {
-			return <Redirect to='/Seeker-Dashboard' />;
-		} else {
-			return <Redirect to='/Recruiter-Dashboard' />;
-		}
+		return <Redirect to='/jobs' />; //dashboard
 	}
 
 	return (

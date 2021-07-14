@@ -38,12 +38,12 @@ const jobSchema = new Schema({
 	type: {
 		type: String,
 	},
-	educationReq: {
-		type: String,
-	},
 	salary: {
 		type: String,
 		default: 'Negotiable',
+	},
+	hrEmail: {
+		type: String,
 	},
 	location: {
 		type: String,
@@ -78,10 +78,6 @@ const jobSchema = new Schema({
 			},
 		},
 	],
-	appliersNo: {
-		type: Number,
-		default: 0,
-	},
 	posted: {
 		type: Date,
 		default: Date.now,

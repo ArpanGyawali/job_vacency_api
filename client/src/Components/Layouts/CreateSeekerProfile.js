@@ -14,7 +14,6 @@ const CreateSeekerProfile = ({
 	const email = isAuthenticated && user.email;
 	const [seekerProfileData, setSeekerProfileData] = useState({
 		location: '',
-		isPulchowk: false,
 		jobInterests: '',
 		workEmail: email,
 		currentStatus: '',
@@ -87,34 +86,6 @@ const CreateSeekerProfile = ({
 					/>
 					<small className='form-text'>
 						Give us your email that you use professionally
-					</small>
-				</div>
-				<div className='form-group'>
-					<input
-						type='radio'
-						name='isPulchowk'
-						onClick={() =>
-							setSeekerProfileData({
-								...seekerProfileData,
-								isPulchowk: true,
-							})
-						}
-					/>
-					Yes
-					<input
-						type='radio'
-						name='isPulchowk'
-						checked
-						onClick={() =>
-							setSeekerProfileData({
-								...seekerProfileData,
-								isPulchowk: false,
-							})
-						}
-					/>
-					No
-					<small className='form-text'>
-						* Select Yes if you are a Pulchwok Student
 					</small>
 				</div>
 				<div className='form-group'>

@@ -1,5 +1,7 @@
 const Job = require('../Models/Job');
+const { RecruiterProfile } = require('../Models/Profile');
 const User = require('../Models/User');
+// const User = require('../Models/User');
 
 const addJob = async (req, res) => {
 	const {
@@ -8,9 +10,9 @@ const addJob = async (req, res) => {
 		catagory,
 		level,
 		vacancyNo,
+		hrEmail,
 		deadline,
 		type,
-		educationReq,
 		salary,
 		location,
 		skillsAndQualifications,
@@ -24,19 +26,19 @@ const addJob = async (req, res) => {
 		jobFields.company = req.user.name;
 		jobFields.avatar = req.user.avatar;
 	} else {
-		const user_id = await User.findOne({ name: company });
+		//const user_id = await User.findOne({ name: company });
 		jobFields.company = company;
 		jobFields.forPulchowk = true;
-		jobFields.user = user_id;
-		jobFields.avatar = user_id.avatar;
+		// jobFields.user = user_id;
+		// jobFields.avatar = user_id.avatar;
 	}
 	if (title) jobFields.title = title;
 	if (catagory) jobFields.catagory = catagory;
 	if (level) jobFields.level = level;
 	if (vacancyNo) jobFields.vacancyNo = vacancyNo;
 	if (deadline) jobFields.deadline = deadline;
-	if (educationReq) jobFields.educationReq = educationReq;
 	if (type) jobFields.type = type;
+	if (hrEmail) jobFields.hrEmail = hrEmail;
 	if (salary) jobFields.salary = salary;
 	if (location) jobFields.location = location;
 	if (description) jobFields.description = description;
@@ -58,6 +60,12 @@ const addJob = async (req, res) => {
 		// Adding new Job
 		const job = new Job(jobFields);
 		await job.save();
+		if (job) {
+			await RecruiterProfile.findOneAndUpdate(
+				{ user: req.user.id },
+				{ $inc: { noOfJobs: 1 } }
+			);
+		}
 		return res.status(200).json(job);
 	} catch (err) {
 		return res.status(500).json({
@@ -70,12 +78,14 @@ const addJob = async (req, res) => {
 const viewJobs = async (req, res) => {
 	try {
 		let jobs;
-		if (req.body.sortBy === 'date') {
-			jobs = await Job.find({ vacancyNo: { $gt: 0 } }).sort({ date: -1 });
-		} else if (req.body.sortBy === 'popularity') {
-			jobs = await Job.find({ vacancyNo: { $gt: 0 } }).sort({ appliersNo: -1 });
-		} else if (req.body.sortBy === 'vacancyNo') {
-			jobs = await Job.find().sort({ vacancyNo: -1 });
+		if (req.body.sortBy === 'vacancyNo') {
+			jobs = await Job.find()
+				.sort({ vacancyNo: -1 })
+				.populate('user', ['role']);
+		} else {
+			jobs = await Job.find({ vacancyNo: { $gt: 0 } })
+				.sort({ date: -1 })
+				.populate('user', ['role']);
 		}
 		if (jobs.length > 0) {
 			return res.json(jobs);
@@ -95,7 +105,7 @@ const viewJobs = async (req, res) => {
 
 const viewJobById = async (req, res) => {
 	try {
-		const job = await Job.findById(req.params.jobId);
+		const job = await Job.findById(req.params.jobId).populate('user', ['role']);
 		if (!job) {
 			return res.status(404).json({
 				message: `Job not found`,
@@ -119,9 +129,36 @@ const viewJobById = async (req, res) => {
 
 const viewJobByUserId = async (req, res) => {
 	try {
-		const jobs = await Job.find({ user: req.params.userId }).sort({
-			vacancyNo: -1,
+		const jobs = await Job.find({ user: req.params.userId })
+			.sort({
+				vacancyNo: -1,
+			})
+			.populate('user', ['role']);
+		if (jobs.length > 0) {
+			return res.json(jobs);
+		} else {
+			return res.status(404).json({
+				message: `No Jobs Found`,
+				success: false,
+			});
+		}
+	} catch (err) {
+		if (err.kind === 'ObjectId') {
+			return res.status(404).json({
+				message: `No Jobs Found`,
+				success: false,
+			});
+		}
+		return res.status(500).json({
+			message: `Server error ${err}`,
+			success: false,
 		});
+	}
+};
+
+const viewAppliedJobs = async (req, res) => {
+	try {
+		const jobs = await Job.find({ 'appliers.user': req.params.userId });
 		if (jobs.length > 0) {
 			return res.json(jobs);
 		} else {
@@ -154,14 +191,20 @@ const deleteById = async (req, res) => {
 			});
 		}
 		// Check User
-		if (job.user.toString() !== req.user._id && req.user.role !== 'admin') {
+		if (job.user.toString() !== req.user._id.toString()) {
 			return res.status(401).json({
 				message: `You cannot delete the job`,
 				success: false,
 			});
 		}
 		await job.remove();
-		return res.status(401).json({
+		if (job) {
+			await RecruiterProfile.findOneAndUpdate(
+				{ user: req.user.id },
+				{ $inc: { noOfJobs: -1 } }
+			);
+		}
+		return res.status(200).json({
 			message: `Job deleated`,
 			success: true,
 		});
@@ -179,15 +222,37 @@ const deleteById = async (req, res) => {
 	}
 };
 
+// Apply for a job
 const applyJob = async (req, res) => {
 	try {
+		const user = await User.findById(req.user.id).select('-password');
 		const job = await Job.findById(req.params.jobId);
+		const newApply = {
+			user: req.user.id,
+			name: user.name,
+			avatar: user.avatar,
+			resume: req.body.resume,
+		};
 		if (!job) {
 			return res.status(404).json({
 				message: `Job not found`,
 				success: false,
 			});
 		}
+		// Check if the post is already applied
+		if (
+			job.appliers.filter(
+				(applier) => applier.user.toString() === req.user.id.toString()
+			).length > 0
+		) {
+			return res.status(400).json({
+				message: 'Job already applied',
+				success: false,
+			});
+		}
+		job.appliers.unshift(newApply);
+		await job.save();
+		res.json(job.appliers);
 	} catch (err) {
 		if (err.kind === 'ObjectId') {
 			return res.status(404).json({
@@ -202,6 +267,20 @@ const applyJob = async (req, res) => {
 	}
 };
 
+// View Appliers
+// const viewAppliers = async(req, res) => {
+// 	try {
+// 		const job = await Job.findById(req.params.jobId);
+// 		if(job.appliers.length() === 0){
+// 			return res.status(404).json({
+// 				message: `No appliers`,
+// 				success: false,
+// 			});
+// 		}
+// 		return res.json(job.appliers)
+// 	}
+// }
+
 module.exports = {
 	addJob,
 	viewJobs,
@@ -209,4 +288,5 @@ module.exports = {
 	deleteById,
 	applyJob,
 	viewJobByUserId,
+	viewAppliedJobs,
 };

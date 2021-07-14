@@ -10,7 +10,7 @@ const {
 	deleteRecruiter,
 	deleteSeeker,
 } = require('../Utilities/authProfile');
-const { SeekerProfile, RecruiterProfile } = require('../Models/Profile');
+const { RecruiterProfile } = require('../Models/Profile');
 
 // Seeker profile Routes
 // router.get('/profile-seeker&recruiter', userAuth,  checkRole(['seeker', 'recruiter', 'admin']), (req, res) => {
@@ -25,7 +25,6 @@ const { SeekerProfile, RecruiterProfile } = require('../Models/Profile');
 
 const validationSeekerArr = [
 	check('location', 'Loaction is required').not().isEmpty(),
-	check('isPulchowk', 'Pulchowk Student or not??').not().isEmpty(),
 	check('currentStatus', 'Your current status is required').not().isEmpty(),
 	check('workEmail', 'Email is required').not().isEmpty(),
 	check('workEmail', 'Enter a valid email address').isEmail(),

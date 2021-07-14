@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../Layouts/Spinner';
 import SeekerProfileData from './SeekerProfileData';
+import AppliedJobs from '../Job/AppliedJobs';
 import { getProfileById, DeleteAccount } from '../../Actions/profile';
 
 const SeekerProfile = ({
@@ -40,14 +41,16 @@ const SeekerProfile = ({
 								Edit Profile
 							</Link>
 						)}
-					{profile.isPulchowk && (
+					{auth.user.email.includes('@pcampus.edu.np') && (
 						<div class='isPul'>
 							<p>Pulchowk Campus Student</p>
 						</div>
 					)}
 					<div class='profile-grid my-1'>
 						<SeekerProfileData profile={profile} />
-						// Applied Jobs
+						{auth.isAuthenticated &&
+							auth.isLoading === false &&
+							auth.user._id === id && <AppliedJobs id={id} />}
 					</div>
 					{auth.isAuthenticated &&
 						auth.isLoading === false &&

@@ -1,6 +1,6 @@
 /* Global Styles */
 :root {
-	--primary-color-thin: rgb(196, 114, 233);
+	--primary-color-thin: rgb(202, 127, 224);
 	--primary-color: linear-gradient(to right, #654ea3, #eaafc8);
 	--dark-color: #343a40;
 	--light-color: #f4f4f4;
@@ -361,14 +361,27 @@ button {
 	color: #0077b5;
 }
 
-.table th,
-.table td {
-	padding: 1rem;
-	text-align: left;
+.search-wrap {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	min-width: 80px;
 }
 
-.table th {
-	background: var(--light-color);
+.search-wrap .fa-search {
+	position: absolute;
+	top: 9px;
+	left: 26%;
+}
+
+.search {
+	border: 1px solid rgb(117, 116, 116);
+	border-radius: 10px;
+	height: 35px;
+	width: 50%;
+	padding: 2px 25px;
+	outline: 0;
+	background-color: #ececec;
 }
 
 .isPul {
@@ -377,7 +390,33 @@ button {
 	top: 14%;
 }
 
-/* Navbar */
+table.GeneratedTable {
+	width: 100%;
+	background-color: #ffffff;
+	border-width: 0px;
+	border-style: solid;
+	color: #000000;
+}
+
+table.GeneratedTable td,
+table.GeneratedTable th {
+	border-width: 1px;
+	border-color: #bdb9bc;
+	border-style: solid;
+	padding: 5px;
+	padding: 10px;
+}
+
+table.GeneratedTable td {
+	background-color: rgb(221, 221, 221);
+}
+
+table.GeneratedTable th {
+	border-radius: 10px;
+	background-color: var(--primary-color-thin);
+	width: 15%;
+	color: rgb(243, 224, 224);
+}
 .navbar {
 	display: flex;
 	justify-content: space-between;
@@ -489,6 +528,14 @@ ul li:hover {
 	text-align: center;
 }
 
+.profile-job {
+	grid-area: about;
+}
+
+.profile-job h2 {
+	text-align: center;
+}
+
 .profile-exp {
 	grid-area: exp;
 }
@@ -545,7 +592,7 @@ ul li:hover {
 
 .post {
 	display: grid;
-	grid-template-columns: 1fr 4fr;
+	grid-template-columns: 1fr 3fr;
 	grid-gap: 2rem;
 	align-items: center;
 }
@@ -555,7 +602,7 @@ ul li:hover {
 }
 
 .post img {
-	width: 100px;
+	width: 130px;
 }
 
 .post .comment-count {
@@ -567,7 +614,15 @@ ul li:hover {
 }
 
 .post .post-date {
-	color: #aaa;
+	color: rgb(99, 96, 96);
+	font-size: 0.8rem;
+	margin-bottom: 0.5rem;
+}
+
+.job-date,
+.job-by {
+	float: right;
+	color: rgb(99, 96, 96);
 	font-size: 0.8rem;
 	margin-bottom: 0.5rem;
 }

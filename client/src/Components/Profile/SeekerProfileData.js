@@ -31,7 +31,7 @@ const SeekerProfileData = ({
 					)}
 					{social && social.github && (
 						<a href={social.github} target='_blank' rel='noopener noreferrer'>
-							<i class='fas fa-globe fa-2x'></i>
+							<i class='fab fa-github fa-2x'></i>
 						</a>
 					)}
 					{social && social.twitter && (
@@ -40,7 +40,7 @@ const SeekerProfileData = ({
 						</a>
 					)}
 					{social && social.facebook && (
-						<a href='#' target='_blank' rel='noopener noreferrer'>
+						<a href={social.facebook} target='_blank' rel='noopener noreferrer'>
 							<i class='fab fa-facebook fa-2x'></i>
 						</a>
 					)}
