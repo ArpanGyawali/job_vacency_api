@@ -22,6 +22,7 @@ import JobById from './Components/Job/JobById';
 import { loadUser } from './Actions/auth';
 import setAuthToken from './Utils/setAuthToken';
 import PrivateRoute from './Components/PrivateRouting/PrivateRoute';
+import AdminPrivateRoute from './Components/PrivateRouting/AdminPrivateRoute';
 // import Particles from 'react-particles-js'
 import './App.css';
 // Redux
@@ -101,7 +102,7 @@ const App = () => {
 								path='/seekerProfile/:id'
 								component={SeekerProfile}
 							/>
-							<PrivateRoute exact path='/admin-dash' component={Admin} />
+							<AdminPrivateRoute exact path='/admin-dash' component={Admin} />
 							<PrivateRoute exact path='/job/:id' component={JobById} />
 							<PrivateRoute exact path='/post-job' component={PostJobForm} />
 							<PrivateRoute exact path='/jobs' component={Jobs} />
