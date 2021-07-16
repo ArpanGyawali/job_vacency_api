@@ -5,8 +5,7 @@ import { login } from '../../Actions/auth';
 import PropTypes from 'prop-types';
 //import axios from 'axios'
 
-const Login = (props) => {
-	const role = props.location.role;
+const AdminLogin = (props) => {
 	const { login, isAuthenticated } = props;
 	const [formData, setFormData] = useState({
 		username: '',
@@ -21,6 +20,8 @@ const Login = (props) => {
 			[ele.target.name]: ele.target.value,
 		});
 
+	const role = 'admin';
+
 	const handleSubmit = async (ele) => {
 		ele.preventDefault();
 		login({ username, password, role });
@@ -28,16 +29,12 @@ const Login = (props) => {
 
 	// Redirect if logged in
 	if (isAuthenticated) {
-		if (role === 'admin') {
-			return <Redirect to='/admin-dash' />;
-		} else {
-			return <Redirect to='/jobs' />; //dashboard
-		}
+		return <Redirect to='/admin-dash' />;
 	}
 
 	return (
 		<Fragment>
-			<h1 className='large text-primary'>Sign In as {role}</h1>
+			<h1 className='large text-primary'>Sign In as Admin</h1>
 			<p className='lead'>
 				<i className='fas fa-user'></i> Provide Correct Credentials
 			</p>
@@ -64,22 +61,11 @@ const Login = (props) => {
 				</div>
 				<input type='submit' className='btn btn-primary' value='Login' />
 			</form>
-			<p className='my-1'>
-				Don't have an account?
-				<Link
-					to={{
-						pathname: '/register',
-						role: role,
-					}}
-				>
-					Register
-				</Link>
-			</p>
 		</Fragment>
 	);
 };
 
-Login.propTypes = {
+AdminLogin.propTypes = {
 	login: PropTypes.func.isRequired,
 	isAuthenticated: PropTypes.bool,
 };
@@ -88,4 +74,4 @@ const mapStateToProps = (state) => ({
 	isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps, { login })(Login);
+export default connect(mapStateToProps, { login })(AdminLogin);

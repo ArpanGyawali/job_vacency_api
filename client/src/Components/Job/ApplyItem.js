@@ -5,16 +5,18 @@ import Moment from 'react-moment';
 
 const ApplyItem = ({ apply: { _id, resume, name, avatar, applied, user } }) => {
 	return (
-		<div class='post bg-white p-1 my-1'>
+		<div className='post bg-white p-1 my-1'>
 			<div>
 				<Link to={`/seekerProfile/${user}`}>
-					<img class='round-img' src={avatar} alt='' />
+					<img className='round-img' src={avatar} alt='' />
 					<h4>{name}</h4>
 				</Link>
 			</div>
 			<div>
-				<p class='my-1'>{resume}</p>
-				<p class='post-date'>
+				<a href={resume} className='my-1'>
+					{resume}
+				</a>
+				<p className='post-date'>
 					<Moment format='YYYY/MM/DD'>{applied}</Moment>
 				</p>
 			</div>

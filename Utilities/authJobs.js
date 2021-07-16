@@ -1,6 +1,7 @@
 const Job = require('../Models/Job');
 const { RecruiterProfile } = require('../Models/Profile');
 const User = require('../Models/User');
+const Company = require('../Models/AdminCompany');
 // const User = require('../Models/User');
 
 const addJob = async (req, res) => {
@@ -28,8 +29,7 @@ const addJob = async (req, res) => {
 	} else {
 		//const user_id = await User.findOne({ name: company });
 		jobFields.company = company;
-		jobFields.forPulchowk = true;
-		// jobFields.user = user_id;
+		jobFields.user = req.user._id;
 		// jobFields.avatar = user_id.avatar;
 	}
 	if (title) jobFields.title = title;
@@ -58,8 +58,17 @@ const addJob = async (req, res) => {
 		//   return res.status(200).json(job)
 		// }
 		// Adding new Job
+		const adminCompany = await Company.findOne({ name: company });
 		const job = new Job(jobFields);
 		await job.save();
+		if (adminCompany) {
+			adminCompany.noOfJobs += 1;
+			await adminCompany.save();
+		} else {
+			const newCompany = new Company({ name: company, noOfJobs: 1 });
+			await newCompany.save();
+		}
+
 		if (job) {
 			await RecruiterProfile.findOneAndUpdate(
 				{ user: req.user.id },
@@ -84,7 +93,7 @@ const viewJobs = async (req, res) => {
 				.populate('user', ['role']);
 		} else {
 			jobs = await Job.find({ vacancyNo: { $gt: 0 } })
-				.sort({ date: -1 })
+				.sort({ posted: -1 })
 				.populate('user', ['role']);
 		}
 		if (jobs.length > 0) {
@@ -184,12 +193,14 @@ const viewAppliedJobs = async (req, res) => {
 const deleteById = async (req, res) => {
 	try {
 		const job = await Job.findById(req.params.jobId);
+
 		if (!job) {
 			return res.status(404).json({
 				message: `Job not found`,
 				success: false,
 			});
 		}
+
 		// Check User
 		if (job.user.toString() !== req.user._id.toString()) {
 			return res.status(401).json({
@@ -204,6 +215,14 @@ const deleteById = async (req, res) => {
 				{ $inc: { noOfJobs: -1 } }
 			);
 		}
+
+		// Updating the count
+		const adminCompany = await Company.findOne({ name: job.company });
+		if (adminCompany) {
+			adminCompany.noOfJobs -= 1;
+			await adminCompany.save();
+		}
+
 		return res.status(200).json({
 			message: `Job deleated`,
 			success: true,
@@ -267,6 +286,31 @@ const applyJob = async (req, res) => {
 	}
 };
 
+const countJobs = async (req, res) => {
+	try {
+		const companies = await Company.find().sort({ noOfJobs: -1 });
+		if (companies.length > 0) {
+			return res.json(companies);
+		} else {
+			return res.status(404).json({
+				message: `No Companies Found`,
+				success: false,
+			});
+		}
+	} catch (err) {
+		if (err.kind === 'ObjectId') {
+			return res.status(404).json({
+				message: `No Companies Found`,
+				success: false,
+			});
+		}
+		return res.status(500).json({
+			message: `Server error ${err}`,
+			success: false,
+		});
+	}
+};
+
 // View Appliers
 // const viewAppliers = async(req, res) => {
 // 	try {
@@ -289,4 +333,5 @@ module.exports = {
 	applyJob,
 	viewJobByUserId,
 	viewAppliedJobs,
+	countJobs,
 };

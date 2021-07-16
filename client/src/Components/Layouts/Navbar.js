@@ -19,18 +19,29 @@ const Navbar = ({ auth, logout }) => {
 	}
 	const authLinks = (
 		<Fragment>
-			<li>
-				<Link to={'/jobs'}>
-					<i className='fas fa-briefcase'></i>{' '}
-					<span className='hide-sm'>Jobs</span>
-				</Link>
-			</li>
-			<li>
-				<Link to={route}>
-					<i className='fas fa-user'></i>{' '}
-					<span className='hide-sm'>Profile</span>
-				</Link>
-			</li>
+			{role !== 'admin' ? (
+				<Fragment>
+					<li>
+						<Link to={'/jobs'}>
+							<i className='fas fa-briefcase'></i>{' '}
+							<span className='hide-sm'>Jobs</span>
+						</Link>
+					</li>
+					<li>
+						<Link to={route}>
+							<i className='fas fa-user'></i>{' '}
+							<span className='hide-sm'>Profile</span>
+						</Link>
+					</li>
+				</Fragment>
+			) : (
+				<li>
+					<Link to='/admin-dash'>
+						<i className='fas fa-user'></i>{' '}
+						<span className='hide-sm'>Dashboard</span>
+					</Link>
+				</li>
+			)}
 			<li>
 				<Link to='/' onClick={logout}>
 					<i className='fas fa-sign-out-alt'></i>{' '}

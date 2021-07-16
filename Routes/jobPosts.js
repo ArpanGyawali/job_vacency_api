@@ -10,6 +10,7 @@ const {
 	applyJob,
 	viewJobByUserId,
 	viewAppliedJobs,
+	countJobs,
 } = require('../Utilities/authJobs');
 
 const validationJobArr = [
@@ -94,6 +95,11 @@ router.delete(
 		await deleteById(req, res);
 	}
 );
+
+//Count Job by company
+router.get('/jobs-count', userAuth, checkRole(['admin']), async (req, res) => {
+	await countJobs(req, res);
+});
 
 // // View appliers on a job
 // router.get(

@@ -45,90 +45,96 @@ const JobById = ({
 				<Spinner />
 			) : (
 				<Fragment>
-					{job.user.role === 'recruiter' ? (
-						<h2 className='text-primary'>
-							{`${job.title} by `}
-							<Link to={`/recruiterProfile/${job.user}`}>{job.company}</Link>
-						</h2>
-					) : (
-						<h2 className='text-primary'>
-							{`${job.title} by ${job.company} posted by Admin`}
-						</h2>
-					)}
-					<table className='GeneratedTable'>
-						<tr>
-							<th>Title</th>
-							<td colSpan='3'>{job.title}</td>
-						</tr>
-						<tr>
-							<th>Catagory</th>
-							<td>{job.catagory}</td>
-							<th>Level</th>
-							<td>{job.level}</td>
-						</tr>
-						<tr>
-							<th>Type</th>
-							<td>{job.type}</td>
-							<th>Salary</th>
-							<td>{job.salary}</td>
-						</tr>
-						<tr>
-							<th>No of Vacancy</th>
-							<td>{job.vacancyNo}</td>
-							<th>No of appliers</th>
-							<td>{job.appliers.length}</td>
-						</tr>
-						<tr>
-							<th>Posted In</th>
-							<td>
-								<Moment format='YYYY/MM/DD'>{job.posted}</Moment>
-							</td>
-							<th>Deadline</th>
-							<td>
-								<Moment format='YYYY/MM/DD'>{job.deadline}</Moment>
-							</td>
-						</tr>
-						<tr>
-							<th>Job Location</th>
-							<td colSpan='3'>{job.location}</td>
-						</tr>
-						<tr>
-							<th>Skills and Qualifications</th>
-							<td colSpan='3'>
-								{job.skillsAndQualifications.map((item) => (
-									<p className='my-1'>
-										<i className='fa fa-arrow-right'></i> {` ${item}`}
-									</p>
-								))}
-							</td>
-						</tr>
-						<tr>
-							<th>Job Description</th>
-							<td colSpan='3'>{job.description}</td>
-						</tr>
-					</table>
-					{job.hrEmail && (
-						<p>For more information about the job, email {job.hrEmail}</p>
-					)}
-
-					{isAuthenticated && user.role === 'seeker' && (
+					{job && (
 						<Fragment>
-							<ApplyForm key={user._id} jobId={job._id} />
-							{job.user.role === 'admin' && job.hrEmail && (
-								<h4>{`Also Email your resume to ${job.hrEmail}`}</h4>
+							{job.user.role === 'recruiter' ? (
+								<h2 className='text-primary'>
+									{`${job.title} by `}
+									<Link to={`/recruiterProfile/${job.user}`}>
+										{job.company}
+									</Link>
+								</h2>
+							) : (
+								<h2 className='text-primary'>
+									{`${job.title} by ${job.company} posted by Admin`}
+								</h2>
 							)}
+							<table className='GeneratedTable'>
+								<tr>
+									<th>Title</th>
+									<td colSpan='3'>{job.title}</td>
+								</tr>
+								<tr>
+									<th>Catagory</th>
+									<td>{job.catagory}</td>
+									<th>Level</th>
+									<td>{job.level}</td>
+								</tr>
+								<tr>
+									<th>Type</th>
+									<td>{job.type}</td>
+									<th>Salary</th>
+									<td>{job.salary}</td>
+								</tr>
+								<tr>
+									<th>No of Vacancy</th>
+									<td>{job.vacancyNo}</td>
+									<th>No of appliers</th>
+									<td>{job.appliers.length}</td>
+								</tr>
+								<tr>
+									<th>Posted In</th>
+									<td>
+										<Moment format='YYYY/MM/DD'>{job.posted}</Moment>
+									</td>
+									<th>Deadline</th>
+									<td>
+										<Moment format='YYYY/MM/DD'>{job.deadline}</Moment>
+									</td>
+								</tr>
+								<tr>
+									<th>Job Location</th>
+									<td colSpan='3'>{job.location}</td>
+								</tr>
+								<tr>
+									<th>Skills and Qualifications</th>
+									<td colSpan='3'>
+										{job.skillsAndQualifications.map((item) => (
+											<p className='my-1'>
+												<i className='fa fa-arrow-right'></i> {` ${item}`}
+											</p>
+										))}
+									</td>
+								</tr>
+								<tr>
+									<th>Job Description</th>
+									<td colSpan='3'>{job.description}</td>
+								</tr>
+							</table>
+							{job.hrEmail && (
+								<p>For more information about the job, email {job.hrEmail}</p>
+							)}
+
+							{isAuthenticated && user.role === 'seeker' && (
+								<Fragment>
+									<ApplyForm key={user._id} jobId={job._id} />
+									{job.user.role === 'admin' && job.hrEmail && (
+										<h4>{`Also Email your resume to ${job.hrEmail}`}</h4>
+									)}
+								</Fragment>
+							)}
+							{isAuthenticated &&
+								job.user._id === user._id &&
+								(user.role === 'recruiter' || user.role === 'admin') && (
+									<Fragment>
+										<h3 className='text-primary'>Appliers</h3>
+										{job.appliers.map((apply) => (
+											<ApplyItem key={apply._id} apply={apply} />
+										))}
+									</Fragment>
+								)}
 						</Fragment>
 					)}
-					{isAuthenticated &&
-						job.user._id === user._id &&
-						(user.role === 'recruiter' || user.role === 'admin') && (
-							<Fragment>
-								<h3 class='text-primary'>Appliers</h3>
-								{job.appliers.map((apply) => (
-									<ApplyItem key={apply._id} apply={apply} />
-								))}
-							</Fragment>
-						)}
 				</Fragment>
 			)}
 		</Fragment>

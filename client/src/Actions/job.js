@@ -8,6 +8,8 @@ import {
 	CLEAR_JOBS,
 	GET_JOB,
 	APPLY_JOB,
+	GET_COUNTS,
+	COUNT_ERROR,
 } from './constants';
 
 // Get all the Jobs
@@ -138,3 +140,21 @@ export const applyJob = (jobId, applyData) => async (dispatch) => {
 		});
 	}
 };
+
+export const jobCount = () => async (dispatch) => {
+	try {
+		const res = await axios.get('/api/jobs/jobs-count');
+
+		dispatch({
+			type: GET_COUNTS,
+			payload: res.data,
+		});
+	} catch (err) {
+		dispatch({
+			type: COUNT_ERROR,
+			payload: err.response.data.message,
+		});
+	}
+};
+
+// Count Job for individual company

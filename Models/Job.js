@@ -2,6 +2,7 @@ const { Schema, model } = require('mongoose');
 
 const jobSchema = new Schema({
 	user: {
+		//role => admin
 		type: Schema.Types.ObjectId,
 		ref: 'users',
 	},

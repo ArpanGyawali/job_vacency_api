@@ -74,8 +74,10 @@ export const login =
 			let url;
 			if (role === 'seeker') {
 				url = '/api/users/login-seeker';
-			} else {
+			} else if (role === 'recruiter') {
 				url = '/api/users/login-recruiter';
+			} else if (role === 'admin') {
+				url = '/api/users/login-admin';
 			}
 			const res = await axios.post(url, body);
 			console.log(res.data);

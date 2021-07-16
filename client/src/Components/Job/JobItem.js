@@ -19,26 +19,25 @@ const JobItem = ({
 		vacancyNo,
 		posted,
 	},
-	job: { isPulchowk },
 	auth,
 }) => {
 	const userr = auth.user;
 	const { isLoading } = auth;
 	if (userr && !userr.email.includes('@pcampus.edu.np')) {
-		if (user.role === 'admin') {
+		if (user && user.role === 'admin') {
 			return null;
 		}
 	}
 	return (
 		<Fragment>
 			<div className='post bg-white p-1 my-1'>
-				{user.role === 'admin' ? (
+				{user && user.role === 'admin' ? (
 					<div>
 						<h4>{company}</h4>
 					</div>
 				) : (
 					<div>
-						<Link to={`/recruiterProfile/${user._id}`}>
+						<Link to={`/recruiterProfile/${user && user._id}`}>
 							<img className='round-img' src={avatar} alt='' />
 							<h4>{company}</h4>
 						</Link>
@@ -69,7 +68,7 @@ const JobItem = ({
 						{'View More  '}
 						<i className='fa fa-arrow-right'></i>
 					</Link>
-					{!isLoading && userr && user._id === userr._id && (
+					{!isLoading && userr && user && user._id === userr._id && (
 						<button
 							type='button'
 							className='btn btn-danger'
@@ -88,12 +87,10 @@ JobItem.propTypes = {
 	deleteJob: PropTypes.func.isRequired,
 	auth: PropTypes.object.isRequired,
 	jobb: PropTypes.object.isRequired,
-	job: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
 	auth: state.auth,
-	job: state.auth,
 });
 
 export default connect(mapStateToProps, { deleteJob })(JobItem);

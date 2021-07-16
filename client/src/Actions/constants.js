@@ -19,3 +19,5 @@ export const JOB_ERROR = 'JOB_ERROR';
 export const DELETE_JOB = 'DELETE_JOB';
 export const POST_JOB = 'POST_JOB';
 export const APPLY_JOB = 'APPLY_JOB';
+export const GET_COUNTS = 'GET_COUNTS';
+export const COUNT_ERROR = 'COUNT_ERROR';

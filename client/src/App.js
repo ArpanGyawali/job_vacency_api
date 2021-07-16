@@ -4,6 +4,8 @@ import Navbar from './Components/Layouts/Navbar';
 import Landing from './Components/Layouts/Landing';
 import Register from './Components/Auth/Register';
 import Login from './Components/Auth/Login';
+import AdminLogin from './Components/Auth/AdminLogin';
+import Admin from './Components/Profile/Admin';
 import Alert from './Components/Layouts/Alert';
 import SeekerDash from './Components/Dashboard/SeekerDash';
 import RecruiterDash from './Components/Dashboard/RecruiterDash';
@@ -57,6 +59,7 @@ const App = () => {
 						<Switch>
 							<Route exact path='/register' component={Register} />
 							<Route exact path='/login' component={Login} />
+							<Route exact path='/login-admin' component={AdminLogin} />
 							<Route exact path='/companies' component={Companies} />
 							<PrivateRoute
 								exact
@@ -98,6 +101,7 @@ const App = () => {
 								path='/seekerProfile/:id'
 								component={SeekerProfile}
 							/>
+							<PrivateRoute exact path='/admin-dash' component={Admin} />
 							<PrivateRoute exact path='/job/:id' component={JobById} />
 							<PrivateRoute exact path='/post-job' component={PostJobForm} />
 							<PrivateRoute exact path='/jobs' component={Jobs} />
