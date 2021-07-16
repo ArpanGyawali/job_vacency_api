@@ -35,7 +35,7 @@ export const getProfileById = (userId, role) => async (dispatch) => {
 
 // Create and Update User
 export const createUpdate =
-	(profileData, history, role) => async (dispatch) => {
+	(profileData, history, role, id) => async (dispatch) => {
 		try {
 			let url;
 			if (role === 'seeker') {
@@ -49,11 +49,12 @@ export const createUpdate =
 				type: GET_PROFILE,
 				payload: res.data,
 			});
+			dispatch(setAlert('Profile Updated', 'success'));
 
 			if (role === 'seeker') {
-				history.push('/Seeker-Dashboard');
+				history.push(`/seekerProfile/${id}`);
 			} else {
-				history.push('/Recruiter-Dashboard');
+				history.push(`/recruiterProfile/${id}`);
 			}
 		} catch (err) {
 			const errors = err.response.data.message;

@@ -3,15 +3,14 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createUpdate } from '../../Actions/profile';
-import { setAlert } from '../../Actions/alert';
 
 const CreateSeekerProfile = ({
-	setAlert,
 	createUpdate,
 	history,
 	auth: { user, isAuthenticated },
 }) => {
 	const email = isAuthenticated && user.email;
+	const id = isAuthenticated && user._id;
 	const [seekerProfileData, setSeekerProfileData] = useState({
 		location: '',
 		jobInterests: '',
@@ -19,6 +18,7 @@ const CreateSeekerProfile = ({
 		currentStatus: '',
 		currentJob: '',
 		portfolio: '',
+		contactNo: '',
 		desc: '',
 		facebook: '',
 		twitter: '',
@@ -34,6 +34,7 @@ const CreateSeekerProfile = ({
 		workEmail,
 		currentStatus,
 		currentJob,
+		contactNo,
 		desc,
 		portfolio,
 		facebook,
@@ -50,8 +51,7 @@ const CreateSeekerProfile = ({
 
 	const handleSubmit = (ele) => {
 		ele.preventDefault();
-		createUpdate(seekerProfileData, history, 'seeker');
-		setAlert('Profile Created', 'success');
+		createUpdate(seekerProfileData, history, 'seeker', id);
 	};
 
 	return (
@@ -74,6 +74,18 @@ const CreateSeekerProfile = ({
 					/>
 					<small className='form-text'>
 						City & state suggested (eg. Dhumbarahi, Kathmandu)
+					</small>
+				</div>
+				<div className='form-group'>
+					<input
+						type='text'
+						placeholder='* Contact Number'
+						name='contactNo'
+						value={contactNo}
+						onChange={(ele) => handleChange(ele)}
+					/>
+					<small className='form-text'>
+						Add a contact no in case the companies want to contact you
 					</small>
 				</div>
 				<div className='form-group'>
@@ -214,7 +226,6 @@ const CreateSeekerProfile = ({
 
 CreateSeekerProfile.propTypes = {
 	createUpdate: PropTypes.func.isRequired,
-	setAlert: PropTypes.func.isRequired,
 	auth: PropTypes.object.isRequired,
 };
 
@@ -222,6 +233,6 @@ const mapStateToProps = (state) => ({
 	auth: state.auth,
 });
 
-export default connect(mapStateToProps, { createUpdate, setAlert })(
+export default connect(mapStateToProps, { createUpdate })(
 	withRouter(CreateSeekerProfile)
 ); //this allows us to use history object as props

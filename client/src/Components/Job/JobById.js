@@ -50,7 +50,7 @@ const JobById = ({
 							{job.user.role === 'recruiter' ? (
 								<h2 className='text-primary'>
 									{`${job.title} by `}
-									<Link to={`/recruiterProfile/${job.user}`}>
+									<Link to={`/recruiterProfile/${job.user._id}`}>
 										{job.company}
 									</Link>
 								</h2>
@@ -128,6 +128,7 @@ const JobById = ({
 								(user.role === 'recruiter' || user.role === 'admin') && (
 									<Fragment>
 										<h3 className='text-primary'>Appliers</h3>
+										{job.appliers.length === 0 && <h4>No one has applied</h4>}
 										{job.appliers.map((apply) => (
 											<ApplyItem key={apply._id} apply={apply} />
 										))}

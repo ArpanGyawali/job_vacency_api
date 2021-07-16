@@ -9,12 +9,8 @@ const AdminPrivateRoute = ({ component: Component, auth, ...rest }) => {
 			{...rest}
 			render={(props) => (
 				<Fragment>
-					{!auth.isAuthenticated && !auth.isLoading ? (
-						<Redirect to='/' />
-					) : (
-						<Component {...props} />
-					)}
-					{auth.user && !auth.user.role !== 'admin' ? (
+					{!auth.isAuthenticated && !auth.isLoading && <Redirect to='/' />}
+					{auth.isAuthenticated && auth.user && auth.user.role !== 'admin' ? (
 						<Redirect to='/jobs' />
 					) : (
 						<Component {...props} />

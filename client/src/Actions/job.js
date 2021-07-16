@@ -113,10 +113,14 @@ export const postJob = (jobData) => async (dispatch) => {
 
 		dispatch(setAlert('Job Post Created', 'success'));
 	} catch (err) {
+		const errors = err.response.data.message;
 		dispatch({
 			type: JOB_ERROR,
 			payload: err.response.data.message,
 		});
+		if (errors) {
+			errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+		}
 	}
 };
 

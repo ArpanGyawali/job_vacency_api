@@ -61,12 +61,14 @@ const addJob = async (req, res) => {
 		const adminCompany = await Company.findOne({ name: company });
 		const job = new Job(jobFields);
 		await job.save();
-		if (adminCompany) {
-			adminCompany.noOfJobs += 1;
-			await adminCompany.save();
-		} else {
-			const newCompany = new Company({ name: company, noOfJobs: 1 });
-			await newCompany.save();
+		if (job && req.user.role === 'admin') {
+			if (adminCompany) {
+				adminCompany.noOfJobs += 1;
+				await adminCompany.save();
+			} else {
+				const newCompany = new Company({ name: company, noOfJobs: 1 });
+				await newCompany.save();
+			}
 		}
 
 		if (job) {
@@ -167,7 +169,9 @@ const viewJobByUserId = async (req, res) => {
 
 const viewAppliedJobs = async (req, res) => {
 	try {
-		const jobs = await Job.find({ 'appliers.user': req.params.userId });
+		const jobs = await Job.find({
+			'appliers.user': req.params.userId,
+		}).populate('user', ['role']);
 		if (jobs.length > 0) {
 			return res.json(jobs);
 		} else {
@@ -217,10 +221,12 @@ const deleteById = async (req, res) => {
 		}
 
 		// Updating the count
-		const adminCompany = await Company.findOne({ name: job.company });
-		if (adminCompany) {
-			adminCompany.noOfJobs -= 1;
-			await adminCompany.save();
+		if (req.user.role === 'admin') {
+			const adminCompany = await Company.findOne({ name: job.company });
+			if (adminCompany) {
+				adminCompany.noOfJobs -= 1;
+				await adminCompany.save();
+			}
 		}
 
 		return res.status(200).json({

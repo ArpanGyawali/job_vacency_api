@@ -19,6 +19,10 @@ const seekerProfileSchema = new Schema({
 		type: String,
 		required: true,
 	},
+	contactNo: {
+		type: Number,
+		required: true,
+	},
 	currentStatus: {
 		type: String,
 		required: true,

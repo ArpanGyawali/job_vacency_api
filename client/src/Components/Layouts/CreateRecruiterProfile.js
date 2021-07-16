@@ -3,14 +3,14 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { createUpdate } from '../../Actions/profile';
 import { connect } from 'react-redux';
-import { setAlert } from '../../Actions/alert';
 
 const CreateRecruiterProfile = (props) => {
-	const { setAlert, createUpdate, history } = props;
+	const { createUpdate, history } = props;
 	const {
 		auth: { user, isAuthenticated },
 	} = props;
 	const email = isAuthenticated && user.email;
+	const id = isAuthenticated && user._id;
 	const [recruiterProfileData, setRecruiterProfileData] = useState({
 		location: '',
 		website: '',
@@ -45,8 +45,7 @@ const CreateRecruiterProfile = (props) => {
 
 	const handleSubmit = (ele) => {
 		ele.preventDefault();
-		createUpdate(recruiterProfileData, history, 'recruiter');
-		setAlert('Profile Created', 'success');
+		createUpdate(recruiterProfileData, history, 'recruiter', id);
 	};
 
 	return (
@@ -184,7 +183,6 @@ const CreateRecruiterProfile = (props) => {
 
 CreateRecruiterProfile.propTypes = {
 	createUpdate: PropTypes.func.isRequired,
-	setAlert: PropTypes.func.isRequired,
 	auth: PropTypes.object.isRequired,
 };
 
@@ -192,6 +190,6 @@ const mapStateToProps = (state) => ({
 	auth: state.auth,
 });
 
-export default connect(mapStateToProps, { createUpdate, setAlert })(
+export default connect(mapStateToProps, { createUpdate })(
 	withRouter(CreateRecruiterProfile)
 );

@@ -3,11 +3,9 @@ import { withRouter, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createUpdate, getProfileById } from '../../Actions/profile';
-import { setAlert } from '../../Actions/alert';
 
 const EditSeekerProfile = (props) => {
 	const {
-		setAlert,
 		createUpdate,
 		getProfileById,
 		history,
@@ -24,6 +22,7 @@ const EditSeekerProfile = (props) => {
 		workEmail: email,
 		currentStatus: '',
 		portfolio: '',
+		contactNo: '',
 		currentJob: '',
 		desc: '',
 		facebook: '',
@@ -45,6 +44,7 @@ const EditSeekerProfile = (props) => {
 					: profile.jobInterests.join(', '),
 			workEmail: isLoading || !profile.workEmail ? '' : profile.workEmail,
 			portfolio: isLoading || !profile.portfolio ? '' : profile.portfolio,
+			contactNo: isLoading || !profile.contactNo ? '' : profile.contactNo,
 			currentStatus:
 				isLoading || !profile.currentStatus ? '' : profile.currentStatus,
 			currentJob: isLoading || !profile.currentJob ? '' : profile.currentJob,
@@ -62,6 +62,7 @@ const EditSeekerProfile = (props) => {
 		workEmail,
 		currentStatus,
 		currentJob,
+		contactNo,
 		desc,
 		portfolio,
 		facebook,
@@ -80,8 +81,7 @@ const EditSeekerProfile = (props) => {
 
 	const handleSubmit = (ele) => {
 		ele.preventDefault();
-		createUpdate(seekerProfileData, history, 'seeker');
-		setAlert('Profile Updated', 'success');
+		createUpdate(seekerProfileData, history, 'seeker', id);
 	};
 
 	return (
@@ -104,6 +104,18 @@ const EditSeekerProfile = (props) => {
 					/>
 					<small className='form-text'>
 						City & state suggested (eg. Dhumbarahi, Kathmandu)
+					</small>
+				</div>
+				<div className='form-group'>
+					<input
+						type='text'
+						placeholder='* Contact Number'
+						name='contactNo'
+						value={contactNo}
+						onChange={(ele) => handleChange(ele)}
+					/>
+					<small className='form-text'>
+						Add a contact no in case the companies want to contact you
 					</small>
 				</div>
 				<div className='form-group'>
@@ -247,7 +259,6 @@ const EditSeekerProfile = (props) => {
 
 EditSeekerProfile.propTypes = {
 	createUpdate: PropTypes.func.isRequired,
-	setAlert: PropTypes.func.isRequired,
 	getProfileById: PropTypes.func.isRequired,
 	profile: PropTypes.object.isRequired,
 	auth: PropTypes.object.isRequired,
@@ -261,5 +272,4 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
 	createUpdate,
 	getProfileById,
-	setAlert,
 })(withRouter(EditSeekerProfile)); //this allows us to use history object as props

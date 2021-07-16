@@ -8,6 +8,7 @@ const SeekerProfileData = ({
 		portfolio,
 		jobInterests,
 		currentStatus,
+		contactNo,
 		workEmail,
 		currentJob,
 		social,
@@ -66,11 +67,19 @@ const SeekerProfileData = ({
 						<i class='fa fa-envelope'></i>
 						<strong>Email: </strong>
 						{workEmail && <span>{`${workEmail}  | `}</span>}
+						<i class='fa fa-phone'></i>
+						<strong>Contact: </strong>
+						{contactNo && <span>{`${contactNo}  | `}</span>}
 						<i class='fa fa-user'></i>
 						<strong>Status: </strong>
 						{currentStatus && <span>{`${currentStatus}  | `} </span>}
-						<i class='fa fa-briefcase'></i>
-						<strong>Currently: </strong>
+
+						{currentStatus === 'Employed' && (
+							<Fragment>
+								<i class='fa fa-briefcase'></i>
+								<strong>Currently: </strong>
+							</Fragment>
+						)}
 						{currentJob && <span>{`${currentJob}`} </span>}
 					</div>
 				</div>

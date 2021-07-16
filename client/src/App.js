@@ -7,8 +7,6 @@ import Login from './Components/Auth/Login';
 import AdminLogin from './Components/Auth/AdminLogin';
 import Admin from './Components/Profile/Admin';
 import Alert from './Components/Layouts/Alert';
-import SeekerDash from './Components/Dashboard/SeekerDash';
-import RecruiterDash from './Components/Dashboard/RecruiterDash';
 import CreateSeekerProfile from './Components/Layouts/CreateSeekerProfile';
 import CreateRecruiterProfile from './Components/Layouts/CreateRecruiterProfile';
 import EditSeekerProfile from './Components/Layouts/EditSeekerProfile';
@@ -62,16 +60,6 @@ const App = () => {
 							<Route exact path='/login' component={Login} />
 							<Route exact path='/login-admin' component={AdminLogin} />
 							<Route exact path='/companies' component={Companies} />
-							<PrivateRoute
-								exact
-								path='/Seeker-Dashboard'
-								component={SeekerDash}
-							/>
-							<PrivateRoute
-								exact
-								path='/Recruiter-Dashboard'
-								component={RecruiterDash}
-							/>
 							<PrivateRoute
 								exact
 								path='/createSeekerProfile'

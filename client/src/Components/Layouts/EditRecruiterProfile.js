@@ -2,14 +2,12 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { createUpdate, getProfileById } from '../../Actions/profile';
-import { setAlert } from '../../Actions/alert';
 import { connect } from 'react-redux';
 
 const EditRecruiterProfile = (props) => {
 	const {
 		createUpdate,
 		getProfileById,
-		setAlert,
 		history,
 		profile: { profile, isLoading },
 	} = props;
@@ -68,8 +66,7 @@ const EditRecruiterProfile = (props) => {
 
 	const handleSubmit = (ele) => {
 		ele.preventDefault();
-		createUpdate(recruiterProfileData, history, 'recruiter');
-		setAlert('Profile Updated', 'success');
+		createUpdate(recruiterProfileData, history, 'recruiter', id);
 	};
 
 	return (
@@ -208,7 +205,6 @@ const EditRecruiterProfile = (props) => {
 EditRecruiterProfile.propTypes = {
 	createUpdate: PropTypes.func.isRequired,
 	getProfileById: PropTypes.func.isRequired,
-	setAlert: PropTypes.func.isRequired,
 	profile: PropTypes.object.isRequired,
 	auth: PropTypes.object.isRequired,
 };
@@ -221,5 +217,4 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
 	createUpdate,
 	getProfileById,
-	setAlert,
 })(withRouter(EditRecruiterProfile)); //

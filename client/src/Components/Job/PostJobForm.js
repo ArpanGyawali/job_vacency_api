@@ -132,10 +132,10 @@ const PostJobForm = ({ postJob, auth: { user, isAuthenticated } }) => {
 						onChange={(ele) => handleChange(ele)}
 					/>
 					<small className='form-text'>
-						Give us your email that you use professionally
+						* Enter the number of vacancies opened.
 					</small>
 				</div>
-				<h6>* Deadline</h6>
+				<h5>* Deadline</h5>
 				<div className='form-group'>
 					<input
 						type='date'
@@ -158,11 +158,15 @@ const PostJobForm = ({ postJob, auth: { user, isAuthenticated } }) => {
 				<div className='form-group'>
 					<input
 						type='text'
-						placeholder='Exact Job Location'
+						placeholder='* Exact Job Location'
 						name='location'
 						value={location}
 						onChange={(ele) => handleChange(ele)}
 					/>
+					<small className='form-text'>
+						* Enter the location where employee need to work. You can specify
+						Online if job is online
+					</small>
 				</div>
 				<div className='form-group'>
 					<input
@@ -173,7 +177,8 @@ const PostJobForm = ({ postJob, auth: { user, isAuthenticated } }) => {
 						onChange={(ele) => handleChange(ele)}
 					/>
 					<small className='form-text'>
-						You can leave this field if its negotiable
+						You can leave this field if salary negotiable. Otherwise provide the
+						number
 					</small>
 				</div>
 				<div className='form-group'>
