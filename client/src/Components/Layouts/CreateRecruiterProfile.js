@@ -9,13 +9,12 @@ const CreateRecruiterProfile = (props) => {
 	const {
 		auth: { user, isAuthenticated },
 	} = props;
-	const email = isAuthenticated && user.email;
-	const id = isAuthenticated && user._id;
+	const id = isAuthenticated && user !== null && user._id;
 	const [recruiterProfileData, setRecruiterProfileData] = useState({
 		location: '',
 		website: '',
 		contactNo: '',
-		workEmail: email,
+		workEmail: '',
 		desc: '',
 		facebook: '',
 		twitter: '',

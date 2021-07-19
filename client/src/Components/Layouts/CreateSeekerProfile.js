@@ -9,12 +9,12 @@ const CreateSeekerProfile = ({
 	history,
 	auth: { user, isAuthenticated },
 }) => {
-	const email = isAuthenticated && user.email;
-	const id = isAuthenticated && user._id;
+	const id = isAuthenticated && user !== null && user._id;
+
 	const [seekerProfileData, setSeekerProfileData] = useState({
 		location: '',
 		jobInterests: '',
-		workEmail: email,
+		workEmail: '',
 		currentStatus: '',
 		currentJob: '',
 		portfolio: '',

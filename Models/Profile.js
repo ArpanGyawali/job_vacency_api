@@ -17,7 +17,6 @@ const seekerProfileSchema = new Schema({
 	},
 	workEmail: {
 		type: String,
-		required: true,
 	},
 	contactNo: {
 		type: Number,
@@ -79,7 +78,6 @@ const recruiterProfileSchema = new Schema({
 	},
 	workEmail: {
 		type: String,
-		required: true,
 	},
 	contactNo: {
 		type: Number,

@@ -47,7 +47,7 @@ const SeekerProfile = ({
 						</div>
 					)}
 					<div class='profile-grid my-1'>
-						<SeekerProfileData profile={profile} />
+						<SeekerProfileData profile={profile} seeker={auth.user} />
 						{auth.isAuthenticated &&
 							auth.isLoading === false &&
 							auth.user._id === id && <AppliedJobs id={id} />}

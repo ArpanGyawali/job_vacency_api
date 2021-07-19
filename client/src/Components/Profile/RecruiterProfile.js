@@ -41,7 +41,7 @@ const RecruiterProfile = ({
 							</Link>
 						)}
 					<div class='profile-grid my-1'>
-						<RecruiterProfileData profile={profile} />
+						<RecruiterProfileData profile={profile} recruiter={auth.user} />
 						<JobsByUser id={id} />
 					</div>
 					{auth.isAuthenticated &&

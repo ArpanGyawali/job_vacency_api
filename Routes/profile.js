@@ -26,16 +26,12 @@ const { RecruiterProfile } = require('../Models/Profile');
 const validationSeekerArr = [
 	check('location', 'Loaction is required').not().isEmpty(),
 	check('currentStatus', 'Your current status is required').not().isEmpty(),
-	check('workEmail', 'Email is required').not().isEmpty(),
-	check('workEmail', 'Enter a valid email address').isEmail(),
 	check('contactNo', 'Your contact number is required').not().isEmpty(),
 ];
 
 const validationRecruiterArr = [
 	check('location', 'Loaction is required').not().isEmpty(),
 	check('contactNo', 'Your contact number is required').not().isEmpty(),
-	check('workEmail', 'Email is required').not().isEmpty(),
-	check('workEmail', 'Enter a valid email address').isEmail(),
 ];
 
 // Seeker Own Profile Route

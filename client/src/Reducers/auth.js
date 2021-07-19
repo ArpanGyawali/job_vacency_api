@@ -47,7 +47,6 @@ const auth = (state = initialState, action) => {
 				token: null,
 				isAuthenticated: false,
 				isLoading: false,
-				//user: null
 			};
 		default:
 			return state;

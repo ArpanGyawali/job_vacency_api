@@ -14,6 +14,7 @@ const SeekerProfileData = ({
 		social,
 		user: { name, username, avatar },
 	},
+	seeker: { email },
 }) => {
 	return (
 		<div>
@@ -66,7 +67,11 @@ const SeekerProfileData = ({
 					<div class='p-1'>
 						<i class='fa fa-envelope'></i>
 						<strong>Email: </strong>
-						{workEmail && <span>{`${workEmail}  | `}</span>}
+						{workEmail ? (
+							<span>{`${workEmail}  | `}</span>
+						) : (
+							<span>{`${email}  | `}</span>
+						)}
 						<i class='fa fa-phone'></i>
 						<strong>Contact: </strong>
 						{contactNo && <span>{`${contactNo}  | `}</span>}
@@ -103,6 +108,7 @@ const SeekerProfileData = ({
 
 SeekerProfileData.propTypes = {
 	profile: PropTypes.object.isRequired,
+	seeker: PropTypes.object.isRequired,
 };
 
 export default SeekerProfileData;

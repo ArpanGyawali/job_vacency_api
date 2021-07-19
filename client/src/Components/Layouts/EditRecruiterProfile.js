@@ -15,12 +15,11 @@ const EditRecruiterProfile = (props) => {
 		auth: { user, isAuthenticated },
 	} = props;
 	const id = isAuthenticated && user._id;
-	const email = isAuthenticated && user.email;
 	const [recruiterProfileData, setRecruiterProfileData] = useState({
 		location: '',
 		website: '',
 		contactNo: '',
-		workEmail: email,
+		workEmail: '',
 		desc: '',
 		facebook: '',
 		twitter: '',

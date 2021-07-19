@@ -15,11 +15,10 @@ const EditSeekerProfile = (props) => {
 		auth: { user, isAuthenticated },
 	} = props;
 	const id = isAuthenticated && user._id;
-	const email = isAuthenticated && user.email;
 	const [seekerProfileData, setSeekerProfileData] = useState({
 		location: '',
 		jobInterests: '',
-		workEmail: email,
+		workEmail: '',
 		currentStatus: '',
 		portfolio: '',
 		contactNo: '',
