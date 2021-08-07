@@ -14,5 +14,7 @@ npm install "packages for frontend"
 
 ## TO RUN WHOLE PROJECT
 
+cd "project folder"
+
 npm run dev
 
