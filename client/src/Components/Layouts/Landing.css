@@ -1,0 +1,260 @@
+:root {
+	--primary-color-thin: rgb(202, 127, 224);
+	--primary-color: linear-gradient(to right, #654ea3, #eaafc8);
+	--dark-color: #343a40;
+	--light-color: #f4f4f4;
+}
+
+.banner_main {
+	background: var(--primary-color);
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	padding-bottom: 60px;
+	padding-top: 60px;
+}
+
+.text-bg h1 {
+	color: #fff;
+	font-size: 60px;
+	line-height: 80px;
+	padding-bottom: 25px;
+	font-weight: bold;
+}
+
+.text-bg span {
+	color: #80e9e2;
+	font-size: 40px;
+	line-height: 35px;
+	font-weight: bold;
+}
+
+.text-bg p {
+	color: #fff;
+	font-size: 17px;
+	line-height: 28px;
+	padding: 40px 0;
+}
+
+.text-bg a {
+	font-size: 16px;
+	background-color: #80e9e2;
+	color: #000;
+	padding: 10px 0px;
+	width: 100%;
+	max-width: 190px;
+	text-align: center;
+	display: inline-block;
+	text-transform: uppercase;
+	transition: ease-in all 0.5s;
+	margin-right: 10px;
+	border-radius: 5px;
+}
+
+.text-bg a:hover {
+	background-color: var(--primary-color);
+	border: 2px solid;
+	color: #fff;
+}
+
+.text-img figure {
+	margin: 60px;
+}
+
+.text-img figure img {
+	width: 120%;
+}
+
+.Services {
+	margin-top: 0px;
+	padding: 20px 0;
+	background: #0c0f38;
+	font-family: Poppins;
+}
+
+.Services .titlepage {
+	text-align: center;
+}
+
+.Services .titlepage h1 {
+	color: var(--primary-color-thin);
+	font-size: 50px;
+	padding-bottom: 20px;
+}
+
+.Services .titlepage p {
+	color: #fff;
+	padding-bottom: 10px;
+}
+
+.Services .Services-box i {
+	background: #fff;
+	width: 250px;
+	height: 250px;
+	border-radius: 50px;
+	display: inline-block;
+	padding-top: 10px;
+}
+
+.Services .Services-box i img {
+	width: 200px;
+	height: 200px;
+}
+
+.Services .Services-box i:hover {
+	background: #ddd;
+}
+
+.Services .Services-box h3 {
+	padding: 10px 0px 10px 0px;
+	font-size: 25px;
+	line-height: 25px;
+	color: #fff;
+	display: block;
+	font-weight: 500;
+}
+
+.Services .Services-box {
+	text-align: center;
+	background-color: transparent;
+	border-radius: 20px;
+	border: #cecfd7 solid 2px;
+	padding: 30px;
+	transition: ease-in all 0.5s;
+	margin-bottom: 30px;
+	padding-bottom: 10px;
+}
+
+.Services .Services-box:hover {
+	background: var(--primary-color);
+	transition: ease-in all 0.5s;
+	cursor: pointer;
+}
+
+.Services .Services-box p {
+	font-size: 16px;
+	line-height: 24px;
+	color: #fff;
+}
+
+.gettingStart {
+	padding: 20px;
+	background: var(--primary-color);
+}
+
+.why {
+	margin-top: 90px;
+	font-family: Poppins;
+}
+
+.why .titlepage {
+	text-align: center;
+}
+
+.why .titlepage h1 {
+	color: #80e9e2;
+	font-size: 50px;
+	padding-bottom: 20px;
+}
+
+.why .titlepage p {
+	color: #fff;
+	padding-bottom: 10px;
+}
+
+.start {
+	color: #fff;
+	height: 100%;
+	width: 80%;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+}
+
+.buttons {
+	padding-bottom: 50px;
+}
+
+.buttons .button {
+	display: inline-block;
+	background: #80e9e2;
+	color: #333;
+	padding: 10px 10px;
+	font-size: 16px;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: ease-in all 0.5s;
+	margin-right: 0.5rem;
+}
+
+.buttons .button:hover {
+	background: transparent;
+	border: 2px solid;
+	color: #fff;
+}
+
+@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+section {
+	padding: 30px 0;
+	margin-bottom: 0px;
+}
+
+section .section-title {
+	text-align: center;
+	color: #edeef7;
+	text-transform: uppercase;
+}
+#footer {
+	background: #0c0f38 !important;
+}
+
+#footer h2 {
+	color: var(--primary-color-thin);
+	font-size: 40px;
+	text-align: center;
+	padding-bottom: 20px;
+}
+
+#footer h5 {
+	padding-left: 10px;
+	border-left: 3px solid #eeeeee;
+	padding-bottom: 6px;
+	margin-bottom: 20px;
+	color: #ffffff;
+}
+
+#footer ul.quick-links li {
+	padding: 3px 0;
+	-webkit-transition: 0.5s all ease;
+	-moz-transition: 0.5s all ease;
+	transition: 0.5s all ease;
+	color: rgb(179, 173, 173);
+}
+
+#footer ul.quick-links li:nth-child(3) {
+	font-size: 15px;
+}
+
+#footer ul.quick-links li:hover {
+	padding: 3px 0;
+	margin-left: 5px;
+	font-weight: 700;
+}
+#footer ul.quick-links li i {
+	margin-right: 5px;
+	color: rgb(231, 223, 223);
+}
+#footer ul.quick-links li:hover i {
+	font-weight: 700;
+}
+
+@media (max-width: 767px) {
+	#footer h5 {
+		padding-left: 0;
+		border-left: transparent;
+		padding-bottom: 0px;
+		margin-bottom: 10px;
+	}
+}
