@@ -17,6 +17,8 @@ const Register = (props) => {
 		password: '',
 		confirmPassword: '',
 	});
+	const [isPassword, togglePass] = useState(false);
+	const [isPasswordConfirm, togglePassConf] = useState(false);
 
 	const { name, email, username, password, confirmPassword } = formData;
 
@@ -82,22 +84,30 @@ const Register = (props) => {
 						use that email. (Your email should be valid)
 					</small>
 				</div>
-				<div className='form-group'>
+				<div className='form-group pass'>
 					<input
-						type='password'
+						type={isPassword ? 'text' : 'password'}
 						placeholder='Password'
 						name='password'
 						value={password}
 						onChange={(ele) => handleChange(ele)}
 					/>
+					<i
+						className={`fa ${isPassword ? 'fa-eye-slash' : 'fa-eye'}`}
+						onClick={() => togglePass(!isPassword)}
+					/>
 				</div>
-				<div className='form-group'>
+				<div className='form-group pass'>
 					<input
-						type='password'
+						type={isPasswordConfirm ? 'text' : 'password'}
 						placeholder='Confirm Password'
 						name='confirmPassword'
 						value={confirmPassword}
 						onChange={(ele) => handleChange(ele)}
+					/>
+					<i
+						className={`fa ${isPasswordConfirm ? 'fa-eye-slash' : 'fa-eye'}`}
+						onClick={() => togglePassConf(!isPasswordConfirm)}
 					/>
 				</div>
 				<input type='submit' className='btn btn-primary' value='Register' />

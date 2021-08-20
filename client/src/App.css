@@ -312,12 +312,6 @@ img {
 	margin: 1.2rem 0;
 }
 
-.form .form-text {
-	display: block;
-	margin-top: 0.3rem;
-	color: #888;
-}
-
 .form input[type='text'],
 .form input[type='email'],
 .form input[type='password'],
@@ -331,9 +325,38 @@ img {
 	border: 1px solid #ccc;
 }
 
+.pass {
+	position: relative;
+}
+.fa-eye,
+.fa-eye-slash {
+	position: absolute;
+	top: 15px;
+	right: 10px;
+	cursor: pointer;
+}
+
 .form input[type='submit'],
 button {
 	font: inherit;
+}
+
+/* .pass {
+	position: relative;
+}
+
+.pass i {
+	position: absolute;
+	top: 8px;
+	right: 7px;
+	cursor: pointer;
+	color: white;
+} */
+
+.form .form-text {
+	display: block;
+	margin-top: 0.3rem;
+	color: #888;
 }
 
 .form .social-input {
@@ -364,14 +387,20 @@ button {
 .search-wrap {
 	position: relative;
 	display: flex;
+	margin-top: 20px;
 	justify-content: center;
-	min-width: 80px;
+	min-width: 100px;
 }
 
 .search-wrap .fa-search {
 	position: absolute;
 	top: 9px;
-	left: 26%;
+	left: 15%;
+}
+
+.search-wrap .searchBy {
+	padding-left: 8px;
+	padding-top: 4px;
 }
 
 .search {
@@ -388,6 +417,13 @@ button {
 	position: absolute;
 	right: 16%;
 	top: 14%;
+}
+
+.loadingdots {
+	height: 6em;
+	width: 20em;
+	margin-left: 500%;
+	transform: translateX(-50%);
 }
 
 table.GeneratedTable {

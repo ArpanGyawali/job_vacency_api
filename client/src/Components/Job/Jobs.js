@@ -11,7 +11,27 @@ const Jobs = ({ getJobs, job: { jobs, isLoading }, auth: { user } }) => {
 
 	const [allJobs, setAllJobs] = useState([]);
 	const [filteredJobs, setFilteredJobs] = useState([]);
+	const [searchBy, setSearchBy] = useState('title');
 	const [searchField, setSearchField] = useState('');
+
+	let filterJobs;
+	if (searchBy === 'title') {
+		filterJobs = allJobs.filter((job) =>
+			job.title.toLowerCase().includes(searchField.toLowerCase())
+		);
+	} else if (searchBy === 'catagory') {
+		filterJobs = allJobs.filter((job) =>
+			job.catagory.toLowerCase().includes(searchField.toLowerCase())
+		);
+	} else if (searchBy === 'level') {
+		filterJobs = allJobs.filter((job) =>
+			job.level.toLowerCase().includes(searchField.toLowerCase())
+		);
+	} else if (searchBy === 'location') {
+		filterJobs = allJobs.filter((job) =>
+			job.location.toLowerCase().includes(searchField.toLowerCase())
+		);
+	}
 
 	useEffect(() => {
 		getJobs();
@@ -19,11 +39,7 @@ const Jobs = ({ getJobs, job: { jobs, isLoading }, auth: { user } }) => {
 	}, [getJobs, jobs]);
 
 	useEffect(() => {
-		setFilteredJobs(
-			allJobs.filter((job) =>
-				job.title.toLowerCase().includes(searchField.toLowerCase())
-			)
-		);
+		setFilteredJobs(filterJobs);
 	}, [searchField, allJobs]);
 
 	return isLoading ? (
@@ -55,6 +71,18 @@ const Jobs = ({ getJobs, job: { jobs, isLoading }, auth: { user } }) => {
 					onChange={(e) => setSearchField(e.target.value)}
 					// onKeyPress={props.onKeyPresshandleKeyPress}
 				/>
+				<h5 className='searchBy'>Search By:</h5>
+				<select
+					defaultValue='title'
+					onChange={(e) => setSearchBy(e.target.value)}
+				>
+					<option selected value='title'>
+						Job Title
+					</option>
+					<option value='catagory'>Job Catagory</option>
+					<option value='level'>Job Level</option>
+					<option value='location'>Job Location</option>
+				</select>
 			</div>
 			<div className='posts'>
 				<br />

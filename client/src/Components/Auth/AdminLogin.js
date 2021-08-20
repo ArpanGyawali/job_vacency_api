@@ -13,6 +13,7 @@ const AdminLogin = (props) => {
 	});
 
 	const { username, password } = formData;
+	const [isPassword, togglePass] = useState(0);
 
 	const handleChange = (ele) =>
 		setFormData({
@@ -46,17 +47,19 @@ const AdminLogin = (props) => {
 						name='username'
 						value={username}
 						onChange={(ele) => handleChange(ele)}
-						required
 					/>
 				</div>
-				<div className='form-group'>
+				<div className='form-group pass'>
 					<input
-						type='password'
+						type={isPassword ? 'text' : 'password'}
 						placeholder='Password'
 						name='password'
-						minLength='7'
 						value={password}
 						onChange={(ele) => handleChange(ele)}
+					/>
+					<i
+						className={`fa ${isPassword ? 'fa-eye-slash' : 'fa-eye'}`}
+						onClick={() => togglePass(!isPassword)}
 					/>
 				</div>
 				<input type='submit' className='btn btn-primary' value='Login' />

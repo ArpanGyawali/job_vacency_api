@@ -80,7 +80,6 @@ export const login =
 				url = '/api/users/login-admin';
 			}
 			const res = await axios.post(url, body);
-			console.log(res.data);
 			dispatch({
 				type: LOGIN_SUCCESS,
 				payload: res.data,

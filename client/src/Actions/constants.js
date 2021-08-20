@@ -21,3 +21,6 @@ export const POST_JOB = 'POST_JOB';
 export const APPLY_JOB = 'APPLY_JOB';
 export const GET_COUNTS = 'GET_COUNTS';
 export const COUNT_ERROR = 'COUNT_ERROR';
+export const FILE_ID = 'JOB_ID';
+export const DELETE_FILE = 'DELETE_JOB';
+export const FILE_ERROR = 'FILE_ERROR';

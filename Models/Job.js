@@ -65,7 +65,14 @@ const jobSchema = new Schema({
 			},
 			resume: {
 				type: String,
-				required: true,
+				//required: true,
+			},
+			file: {
+				type: Schema.Types.ObjectId,
+				ref: 'uploads.files',
+			},
+			filename: {
+				type: String,
 			},
 			name: {
 				type: String,

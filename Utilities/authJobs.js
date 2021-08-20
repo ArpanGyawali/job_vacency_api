@@ -1,4 +1,5 @@
 const Job = require('../Models/Job');
+const mongoose = require('mongoose');
 const { RecruiterProfile } = require('../Models/Profile');
 const User = require('../Models/User');
 const Company = require('../Models/AdminCompany');
@@ -292,6 +293,52 @@ const applyJob = async (req, res) => {
 	}
 };
 
+// Apply for a job
+const applyFile = async (req, res, file) => {
+	try {
+		const user = await User.findById(req.user.id).select('-password');
+		const job = await Job.findById(req.params.jobId);
+		const newApply = {
+			user: req.user.id,
+			name: user.name,
+			avatar: user.avatar,
+			file: file.id,
+			filename: file.originalname,
+		};
+		if (!job) {
+			return res.status(404).json({
+				message: `Job not found`,
+				success: false,
+			});
+		}
+		// Check if the post is already applied
+		if (
+			job.appliers.filter(
+				(applier) => applier.user.toString() === req.user.id.toString()
+			).length > 0
+		) {
+			return res.status(400).json({
+				message: 'Job already applied',
+				success: false,
+			});
+		}
+		job.appliers.unshift(newApply);
+		await job.save();
+		res.json(job.appliers);
+	} catch (err) {
+		if (err.kind === 'ObjectId') {
+			return res.status(404).json({
+				message: `Job not found`,
+				success: false,
+			});
+		}
+		return res.status(500).json({
+			message: `Server error ${err}`,
+			success: false,
+		});
+	}
+};
+
 const countJobs = async (req, res) => {
 	try {
 		const companies = await Company.find().sort({ noOfJobs: -1 });
@@ -310,6 +357,60 @@ const countJobs = async (req, res) => {
 				success: false,
 			});
 		}
+		return res.status(500).json({
+			message: `Server error ${err}`,
+			success: false,
+		});
+	}
+};
+
+const deleteFile = async (req, res, gfs) => {
+	try {
+		await Job.findOneAndUpdate(
+			{ _id: req.params.jobId },
+			{ $pull: { appliers: { file: req.params.fileId } } }
+		);
+		//res.redirect(`/api/jobs/view-jobs`);
+		await gfs.delete(
+			new mongoose.Types.ObjectId(req.params.fileId),
+			async (err, data) => {
+				if (err)
+					return res.status(404).json({
+						message: err.msg,
+						success: false,
+					});
+			}
+		);
+		res.status(200).json(req.params.fileId);
+	} catch (err) {
+		return res.status(500).json({
+			message: `Server error ${err}`,
+			success: false,
+		});
+	}
+};
+
+const findFileId = async (req, res) => {
+	try {
+		const job = await Job.findById(req.params.jobId);
+		const filteredApplier =
+			job &&
+			job.appliers.filter(
+				(applier) => applier.user.toString() === req.params.userId.toString()
+			);
+		if (filteredApplier && filteredApplier.length > 0) {
+			const fileData = {
+				id: new mongoose.Types.ObjectId(filteredApplier[0].file),
+				name: filteredApplier[0].filename,
+			};
+			res.json(fileData);
+		} else {
+			res.status(404).json({
+				message: 'No file found',
+				success: false,
+			});
+		}
+	} catch (err) {
 		return res.status(500).json({
 			message: `Server error ${err}`,
 			success: false,
@@ -340,4 +441,7 @@ module.exports = {
 	viewJobByUserId,
 	viewAppliedJobs,
 	countJobs,
+	applyFile,
+	deleteFile,
+	findFileId,
 };

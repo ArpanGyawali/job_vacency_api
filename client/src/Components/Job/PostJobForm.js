@@ -1,10 +1,23 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { postJob } from '../../Actions/job';
+import { jobCount } from '../../Actions/job';
+import { getJobs } from '../../Actions/job';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-const PostJobForm = ({ postJob, auth: { user, isAuthenticated } }) => {
+const PostJobForm = ({
+	postJob,
+	jobCount,
+	getJobs,
+	auth: { user, isAuthenticated },
+	count,
+	job: { jobs },
+}) => {
 	const recruiter = isAuthenticated && user.name;
+	useEffect(() => {
+		jobCount();
+		getJobs();
+	}, [jobCount, getJobs]);
 	const [jobData, setJobData] = useState({
 		company: '',
 		title: '',
@@ -41,12 +54,21 @@ const PostJobForm = ({ postJob, auth: { user, isAuthenticated } }) => {
 			[ele.target.name]: ele.target.value,
 		});
 
+	const handleAdd = (selectId, textId) => {
+		let ddl = document.getElementById(selectId);
+		let option = document.createElement('OPTION');
+		option.innerHTML = document.getElementById(textId).value;
+		ddl.options.add(option);
+	};
+
 	const handleSubmit = (ele) => {
 		ele.preventDefault();
 		postJob(jobData);
 	};
 	const role = user && user.role;
 
+	let Catagories = jobs.map((job) => job.catagory);
+	let uniqueCatagories = [...new Set(Catagories)];
 	return (
 		<Fragment>
 			<h1 className='large text-primary'>Post Job</h1>
@@ -71,19 +93,34 @@ const PostJobForm = ({ postJob, auth: { user, isAuthenticated } }) => {
 				{role === 'admin' && (
 					<Fragment>
 						<div className='form-group'>
-							<input
-								type='text'
-								placeholder='* Name of the Company'
+							<select
+								id='comp'
 								name='company'
 								value={company}
 								onChange={(ele) => handleChange(ele)}
-							/>
+							>
+								<option value='0'>* Select company</option>
+								{count.companies.map((company) => (
+									<option value={!count.isLoading && company.name}>
+										{!count.isLoading && company.name}
+									</option>
+								))}
+							</select>
 							<small className='form-text'>
-								<strong>Important Note: </strong>Enter the exact name of the
-								company. This name is used for calculating no of jobs provided
-								by them for your institution student.
+								<strong>Important Note: </strong>
+								If the company is new.i.e. not included in drop down, then add
+								the company to the list from below and select it from dropdown
 							</small>
 						</div>
+						<div className='form-group'>
+							<input type='text' placeholder='New Company Name' id='new' />
+							<input
+								type='button'
+								value='Add'
+								onClick={() => handleAdd('comp', 'new')}
+							/>
+						</div>
+						<hr />
 					</Fragment>
 				)}
 				<div className='form-group'>
@@ -96,18 +133,36 @@ const PostJobForm = ({ postJob, auth: { user, isAuthenticated } }) => {
 					/>
 					<small className='form-text'>Enter an appropriate job title</small>
 				</div>
-				<div className='form-group'>
-					<input
-						type='text'
-						placeholder='* Catagory'
-						name='catagory'
-						value={catagory}
-						onChange={(ele) => handleChange(ele)}
-					/>
-					<small className='form-text'>
-						eg: Networking, Architecture, Designing
-					</small>
-				</div>
+				<hr />
+				<Fragment>
+					<div className='form-group'>
+						<select
+							id='cat'
+							name='catagory'
+							value={catagory}
+							onChange={(ele) => handleChange(ele)}
+						>
+							<option value='0'>* Select catagory</option>
+							{uniqueCatagories.map((catagory) => (
+								<option value={catagory}>{catagory}</option>
+							))}
+						</select>
+						<small className='form-text'>
+							<strong>Important Note: </strong>
+							If the catagory is not found in the dropdown, please do add a new
+							catagory from below to the list and again select from dropdown.
+						</small>
+					</div>
+					<div className='form-group'>
+						<input type='text' placeholder='New Catagory' id='newCat' />
+						<input
+							type='button'
+							value='Add'
+							onClick={() => handleAdd('cat', 'newCat')}
+						/>
+					</div>
+				</Fragment>
+				<hr />
 				<div className='form-group'>
 					<select
 						name='level'
@@ -123,6 +178,7 @@ const PostJobForm = ({ postJob, auth: { user, isAuthenticated } }) => {
 						<option value='Other'>Other</option>
 					</select>
 				</div>
+				<hr />
 				<div className='form-group'>
 					<input
 						type='number'
@@ -135,6 +191,7 @@ const PostJobForm = ({ postJob, auth: { user, isAuthenticated } }) => {
 						* Enter the number of vacancies opened.
 					</small>
 				</div>
+				<hr />
 				<h5>* Deadline</h5>
 				<div className='form-group'>
 					<input
@@ -144,6 +201,7 @@ const PostJobForm = ({ postJob, auth: { user, isAuthenticated } }) => {
 						onChange={(ele) => handleChange(ele)}
 					/>
 				</div>
+				<hr />
 				<div className='form-group'>
 					<select
 						name='type'
@@ -155,6 +213,7 @@ const PostJobForm = ({ postJob, auth: { user, isAuthenticated } }) => {
 						<option value='Part Time'>Part Time</option>
 					</select>
 				</div>
+				<hr />
 				<div className='form-group'>
 					<input
 						type='text'
@@ -168,6 +227,7 @@ const PostJobForm = ({ postJob, auth: { user, isAuthenticated } }) => {
 						Online if job is online
 					</small>
 				</div>
+				<hr />
 				<div className='form-group'>
 					<input
 						type='text'
@@ -181,6 +241,7 @@ const PostJobForm = ({ postJob, auth: { user, isAuthenticated } }) => {
 						number
 					</small>
 				</div>
+				<hr />
 				<div className='form-group'>
 					<textarea
 						placeholder='Education, skills and other qualification required for this job'
@@ -193,6 +254,7 @@ const PostJobForm = ({ postJob, auth: { user, isAuthenticated } }) => {
 						it appears as a list.
 					</small>
 				</div>
+				<hr />
 				<div className='form-group'>
 					<textarea
 						placeholder='Short description about the job'
@@ -201,6 +263,7 @@ const PostJobForm = ({ postJob, auth: { user, isAuthenticated } }) => {
 						onChange={(ele) => handleChange(ele)}
 					/>
 				</div>
+				<hr />
 				<div className='form-group'>
 					<input
 						type='text'
@@ -222,10 +285,18 @@ const PostJobForm = ({ postJob, auth: { user, isAuthenticated } }) => {
 
 PostJobForm.propTypes = {
 	postJob: PropTypes.func.isRequired,
+	getJobs: PropTypes.func.isRequired,
+	jobCount: PropTypes.func.isRequired,
+	auth: PropTypes.object.isRequired,
+	count: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
 	auth: state.auth,
+	job: state.job,
+	count: state.count,
 });
 
-export default connect(mapStateToProps, { postJob })(PostJobForm);
+export default connect(mapStateToProps, { postJob, jobCount, getJobs })(
+	PostJobForm
+);

@@ -35,7 +35,6 @@ const Companies = ({ getCompanies, profile: { profiles, isLoading } }) => {
 						have been providing jobs for us. Get to know them.
 					</p>
 					<div className='search-wrap'>
-						<i className='fa fa-search'></i>
 						<input
 							className='search'
 							type='search'

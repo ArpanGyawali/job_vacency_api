@@ -9,7 +9,7 @@ const SearchBox = ({ searchField, onSearch }) => {
 	// };
 
 	return (
-		<div className='form-group'>
+		<div>
 			<input
 				type='search'
 				placeholder='Search'

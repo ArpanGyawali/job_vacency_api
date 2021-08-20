@@ -14,7 +14,8 @@ const JobItem = ({
 		avatar,
 		title,
 		catagory,
-		forPulchowk,
+		level,
+		location,
 		deadline,
 		vacancyNo,
 		posted,
@@ -55,14 +56,16 @@ const JobItem = ({
 
 					<p className='my-1'>
 						<strong>Catagory: </strong>
-						{catagory}
+						{catagory} | <strong>Level: </strong>
+						{level}
 					</p>
 					<p className='job-date'>
 						Deadline: <Moment format='YYYY/MM/DD'>{deadline}</Moment>
 					</p>
 					<p className='my-1'>
 						<strong>Vacancy: </strong>
-						{vacancyNo}
+						{vacancyNo} | <strong>Locaion: </strong>
+						{location}
 					</p>
 					<Link to={`/job/${_id}`} className='btn btn-primary'>
 						{'View More  '}

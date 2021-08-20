@@ -10,6 +10,9 @@ import {
 	APPLY_JOB,
 	GET_COUNTS,
 	COUNT_ERROR,
+	FILE_ID,
+	FILE_ERROR,
+	DELETE_FILE,
 } from './constants';
 
 // Get all the Jobs
@@ -145,6 +148,26 @@ export const applyJob = (jobId, applyData) => async (dispatch) => {
 	}
 };
 
+export const applyFile = (jobId, applyData) => async (dispatch) => {
+	try {
+		const res = await axios.post(`/api/jobs/apply/${jobId}`, applyData);
+
+		dispatch({
+			type: APPLY_JOB,
+			payload: res.data,
+		});
+
+		dispatch(setAlert('Apply Successful', 'success'));
+	} catch (err) {
+		dispatch(setAlert(err.response.data.message, 'danger'));
+
+		dispatch({
+			type: JOB_ERROR,
+			payload: err.response.data.message,
+		});
+	}
+};
+
 export const jobCount = () => async (dispatch) => {
 	try {
 		const res = await axios.get('/api/jobs/jobs-count');
@@ -159,6 +182,40 @@ export const jobCount = () => async (dispatch) => {
 			payload: err.response.data.message,
 		});
 	}
+};
+
+export const fileId = (jobId, userId) => async (dispatch) => {
+	try {
+		const res = await axios.get(`/api/jobs/file/${userId}/${jobId}`);
+		dispatch({
+			type: FILE_ID,
+			payload: res.data,
+		});
+	} catch (err) {
+		dispatch({
+			type: FILE_ERROR,
+			payload: err.response.data.message,
+		});
+	}
+};
+
+export const deleteFile = (fileId, jobId) => async (dispatch) => {
+	try {
+		const res = await axios.delete(`/api/jobs/file/${fileId}/${jobId}`);
+		dispatch({
+			type: DELETE_FILE,
+			payload: res.data,
+		});
+		dispatch(setAlert('Application Caneled', 'success'));
+	} catch (err) {
+		dispatch({
+			type: FILE_ERROR,
+			payload: err.response.data.message,
+		});
+	}
+	dispatch({
+		type: DELETE_FILE,
+	});
 };
 
 // Count Job for individual company

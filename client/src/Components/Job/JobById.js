@@ -5,6 +5,7 @@ import { getJobById } from '../../Actions/job';
 import Moment from 'react-moment';
 import Spinner from '../Layouts/Spinner';
 import ApplyForm from './ApplyForm';
+import ApplyResume from './ApplyResume';
 import ApplyItem from './ApplyItem';
 import { connect } from 'react-redux';
 
@@ -112,16 +113,15 @@ const JobById = ({
 								</tr>
 							</table>
 							{job.hrEmail && (
-								<p>For more information about the job, email {job.hrEmail}</p>
+								<p>
+									For more information about the job, email{' '}
+									<strong>{job.hrEmail}</strong>
+								</p>
 							)}
+							<br />
 
 							{isAuthenticated && user.role === 'seeker' && (
-								<Fragment>
-									<ApplyForm key={user._id} jobId={job._id} />
-									{job.user.role === 'admin' && job.hrEmail && (
-										<h4>{`Also Email your resume to ${job.hrEmail}`}</h4>
-									)}
-								</Fragment>
+								<ApplyResume key={user._id} jobId={job._id} />
 							)}
 							{isAuthenticated &&
 								job.user._id === user._id &&

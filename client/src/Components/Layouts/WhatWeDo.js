@@ -9,11 +9,11 @@ import interview from '../../img/interview.png';
 
 const WhatWeDo = () => {
 	return (
-		<div id='service' class='Services'>
-			<div class='container'>
-				<div class='row'>
-					<div class='col-md-12'>
-						<div class='titlepage'>
+		<div id='service' className='Services'>
+			<div className='container'>
+				<div className='row'>
+					<div className='col-md-12'>
+						<div className='titlepage'>
 							<h1>OUR SERVICES</h1>
 							<p>
 								We do our best in satisfying you and fulfiling your needs <br />
@@ -22,9 +22,9 @@ const WhatWeDo = () => {
 						</div>
 					</div>
 				</div>
-				<div class='row'>
-					<div class='col-xl-4 col-lg-4 col-md-4 col-sm-12'>
-						<div class='Services-box'>
+				<div className='row'>
+					<div className='col-xl-4 col-lg-4 col-md-4 col-sm-12'>
+						<div className='Services-box'>
 							<i>
 								<img src={post} alt='#' />
 							</i>
@@ -33,8 +33,8 @@ const WhatWeDo = () => {
 							<br />
 						</div>
 					</div>
-					<div class='col-xl-4 col-lg-4 col-md-4 col-sm-12'>
-						<div class='Services-box'>
+					<div className='col-xl-4 col-lg-4 col-md-4 col-sm-12'>
+						<div className='Services-box'>
 							<i>
 								<img src={search} alt='#' />
 							</i>
@@ -45,8 +45,8 @@ const WhatWeDo = () => {
 							</p>
 						</div>
 					</div>
-					<div class='col-xl-4 col-lg-4 col-md-4 col-sm-12'>
-						<div class='Services-box'>
+					<div className='col-xl-4 col-lg-4 col-md-4 col-sm-12'>
+						<div className='Services-box'>
 							<i>
 								<img src={apply} alt='#' />
 							</i>
@@ -57,8 +57,8 @@ const WhatWeDo = () => {
 							</p>
 						</div>
 					</div>
-					<div class='col-xl-4 col-lg-4 col-md-4 col-sm-12'>
-						<div class='Services-box'>
+					<div className='col-xl-4 col-lg-4 col-md-4 col-sm-12'>
+						<div className='Services-box'>
 							<i>
 								<img src={profile} alt='#' />
 							</i>
@@ -69,8 +69,8 @@ const WhatWeDo = () => {
 							</p>
 						</div>
 					</div>
-					<div class='col-xl-4 col-lg-4 col-md-4 col-sm-12'>
-						<div class='Services-box'>
+					<div className='col-xl-4 col-lg-4 col-md-4 col-sm-12'>
+						<div className='Services-box'>
 							<i>
 								<img src={applients} alt='#' />
 							</i>
@@ -79,8 +79,8 @@ const WhatWeDo = () => {
 							<br />
 						</div>
 					</div>
-					<div class='col-xl-4 col-lg-4 col-md-4 col-sm-12'>
-						<div class='Services-box'>
+					<div className='col-xl-4 col-lg-4 col-md-4 col-sm-12'>
+						<div className='Services-box'>
 							<i>
 								<img src={interview} alt='#' />
 							</i>
