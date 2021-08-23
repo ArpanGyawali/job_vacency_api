@@ -1,5 +1,5 @@
 const User = require('../Models/User');
-const config = require('Config');
+const config = require('config');
 const SECRET = config.get('APP_SECRET');
 const { Strategy, ExtractJwt } = require('passport-jwt');
 const { userAuth } = require('../Middlewares/userAuth');

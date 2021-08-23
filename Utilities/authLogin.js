@@ -1,7 +1,7 @@
 const User = require('../Models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const config = require('Config');
+const config = require('config');
 const SECRET = config.get('APP_SECRET');
 
 // Function to login the users (SEEKER, RECRUITER, ADMIN)

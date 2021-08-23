@@ -7,7 +7,7 @@ const passport = require('passport');
 const path = require('path');
 const methodOverride = require('method-override');
 
-const config = require('Config');
+const config = require('config');
 const DB = config.get('ATLAS_URI');
 const { jwtPassport } = require('./Middlewares/passport');
 
