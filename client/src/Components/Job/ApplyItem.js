@@ -16,7 +16,7 @@ const ApplyItem = ({
 			</div>
 			<div>
 				<a
-					href={`${window.location.protocol}//localhost:8000/api/jobs/files/${file}`}
+					href={`https://damp-spire-73123.herokuapp.com/api/jobs/files/${file}`}
 					className='btn btn-primary'
 					target='_blank'
 				>
