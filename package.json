@@ -1,47 +1,49 @@
 {
-  "name": "job_vacancy_api",
-  "version": "1.0.0",
-  "description": "",
-  "main": "script.js",
-  "scripts": {
-    "start": "node server",
-    "server": "nodemon server --ignore client",
-    "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ArpanGyawali/job_vacency_api.git"
-  },
-  "keywords": [],
-  "author": "The Unnamed",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ArpanGyawali/job_vacency_api/issues"
-  },
-  "homepage": "https://github.com/ArpanGyawali/job_vacency_api#readme",
-  "dependencies": {
-    "bcrypt": "^5.0.1",
-    "consola": "^2.15.3",
-    "cors": "^2.8.5",
-    "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "express-validator": "^6.12.0",
-    "gravatar": "^1.8.1",
-    "gridfs-stream": "^1.1.1",
-    "jsonwebtoken": "^8.5.1",
-    "mailgun-js": "^0.22.0",
-    "method-override": "^3.0.0",
-    "mongoose": "^5.12.14",
-    "multer": "^1.4.2",
-    "multer-gridfs-storage": "^5.0.0",
-    "passport": "^0.4.1",
-    "passport-jwt": "^4.0.0",
-    "request": "^2.88.2",
-    "validator": "^13.6.0"
-  },
-  "devDependencies": {
-    "concurrently": "^6.2.0",
-    "nodemon": "^2.0.7"
-  }
+	"name": "job_vacancy_api",
+	"version": "1.0.0",
+	"description": "",
+	"main": "script.js",
+	"scripts": {
+		"start": "node server",
+		"server": "nodemon server --ignore client",
+		"client": "npm start --prefix client",
+		"dev": "concurrently \"npm run server\" \"npm run client\"",
+		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ArpanGyawali/job_vacency_api.git"
+	},
+	"keywords": [],
+	"author": "The Unnamed",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/ArpanGyawali/job_vacency_api/issues"
+	},
+	"homepage": "https://github.com/ArpanGyawali/job_vacency_api#readme",
+	"dependencies": {
+		"bcrypt": "^5.0.1",
+		"config": "^3.3.6",
+		"consola": "^2.15.3",
+		"cors": "^2.8.5",
+		"dotenv": "^10.0.0",
+		"express": "^4.17.1",
+		"express-validator": "^6.12.0",
+		"gravatar": "^1.8.1",
+		"gridfs-stream": "^1.1.1",
+		"jsonwebtoken": "^8.5.1",
+		"mailgun-js": "^0.22.0",
+		"method-override": "^3.0.0",
+		"mongoose": "^5.12.14",
+		"multer": "^1.4.2",
+		"multer-gridfs-storage": "^5.0.0",
+		"passport": "^0.4.1",
+		"passport-jwt": "^4.0.0",
+		"request": "^2.88.2",
+		"validator": "^13.6.0"
+	},
+	"devDependencies": {
+		"concurrently": "^6.2.0",
+		"nodemon": "^2.0.7"
+	}
 }

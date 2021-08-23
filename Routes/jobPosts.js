@@ -21,7 +21,8 @@ const {
 	findFileId,
 } = require('../Utilities/authJobs');
 
-const { DB } = require('../Config');
+const config = require('Config');
+const DB = config.get('ATLAS_URI');
 
 const validationJobArr = [
 	check('location', 'Loaction is required').not().isEmpty(),
