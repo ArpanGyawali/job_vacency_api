@@ -16,7 +16,7 @@ Here, Recruiter companies can provide job opportunity for the people out there s
 - Apply job
   ![seekers screenshot](Seekers2.png)
 
-- Apply job
+- See jobs applied
   ![seekers screenshot](seeker1.png)
 
 **For Recruiters**
