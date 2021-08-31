@@ -11,10 +11,10 @@ Here, Recruiter companies can provide job opportunity for the people out there s
 **For Seekers**
 
 - Search and View Jobs
-  ![seekers screenshot](seeker.png)
+  ![seekers screenshot](Seeker.png)
 
 - Apply job
-  ![seekers screenshot](seeker2.png)
+  ![seekers screenshot](Seekers2.png)
 
 - Apply job
   ![seekers screenshot](seeker1.png)
@@ -28,7 +28,7 @@ Here, Recruiter companies can provide job opportunity for the people out there s
   ![recruiters screenshot](recruiter1.png)
 
 - See appliers
-  ![recruiters screenshot](recruiter2.png)
+  ![recruiters screenshot](Recruiter2.png)
 
 **Note:**
 [For admin login](https://damp-spire-73123.herokuapp.com/login-admin/)
