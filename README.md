@@ -36,7 +36,12 @@ Here, Recruiter companies can provide job opportunity for the people out there s
 Admin can also post jobs provided by different company for organization students only.They need special access.
 
 **For admin**
-![admin screenshot](admin.png)
+
+-Post jobs for companies
+  ![admin_screenshot](admin2.png)
+  
+-See stats and jobs provided
+  ![admin screenshot](admin.png)
 
 ## How to clone the app and change according to your need
 
