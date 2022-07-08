@@ -40,7 +40,6 @@ const ApplyResume = ({
 		setFile(null);
 		setInputContainsFile(false);
 		setCurrentlyUploading(false);
-		//setAlert('File Removed/ Applicaion cancelled', 'success');
 	};
 
 	useEffect(() => {
